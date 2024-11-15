@@ -1,4 +1,3 @@
-using System.Drawing;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -9,13 +8,15 @@ public class Player : MonoBehaviour
     private float deceleration = 1f;
     public int playerNumber;
     private Vector2 velocity = Vector2.zero;
+    public float rotationSpeed = 5f;
 
     void Update()
     {
+        Vector2 direction = Vector2.zero;
+
+        // Control de movimiento para el Jugador 1
         if (playerNumber == 1)
         {
-            Vector2 direction = Vector2.zero;
-
             // Detectar movimiento en todas las direcciones
             if (Input.GetKey(KeyCode.RightArrow))
             {
@@ -49,17 +50,17 @@ public class Player : MonoBehaviour
             transform.Translate(velocity * Time.deltaTime);
         }
 
+        // Control de movimiento para el Jugador 2 (igual que el Jugador 1)
         else if (playerNumber == 2)
         {
-            Vector2 direction = Vector2.zero;
-
-            if (Input.GetKey(KeyCode.A))
-            {
-                direction = Vector2.left;
-            }
-            else if (Input.GetKey(KeyCode.D))
+            // Detectar movimiento en todas las direcciones (similar al Jugador 1)
+            if (Input.GetKey(KeyCode.D))
             {
                 direction = Vector2.right;
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                direction = Vector2.left;
             }
             else if (Input.GetKey(KeyCode.S))
             {
@@ -75,8 +76,6 @@ public class Player : MonoBehaviour
             {
                 // Aumentar la velocidad en la dirección indicada
                 velocity = Vector2.MoveTowards(velocity, direction * maxSpeed, acceleration * Time.deltaTime);
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
             }
             else // Si no hay entrada, desacelerar
             {
