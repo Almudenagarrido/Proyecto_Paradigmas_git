@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     private float currentSpeed = 0f;
     private float rotationSpeed = 300f;
 
-    void Update()
+    private void Update()
     {
         float rotation = 0f;
         
