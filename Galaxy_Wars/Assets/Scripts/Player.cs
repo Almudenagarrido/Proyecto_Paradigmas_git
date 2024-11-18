@@ -8,11 +8,22 @@ public class Player : MonoBehaviour
     public int playerNumber;
     private float currentSpeed = 0f;
     private float rotationSpeed = 300f;
+    private bool isDead = false;
+
 
     private void Update()
     {
+        if (!isDead)
+        {
+            HandleMovement();
+            HandleShooting();
+        }
+    }
+
+    private void HandleMovement()
+    {
         float rotation = 0f;
-        
+
         // Control de movimiento para el Jugador 1
         if (playerNumber == 1)
         {
@@ -41,8 +52,7 @@ public class Player : MonoBehaviour
                 currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * Time.deltaTime);
             }
         }
-
-        // Control de movimiento para el Jugador 2 (igual que el Jugador 1)
+        // Control de movimiento para el Jugador 2
         else if (playerNumber == 2)
         {
             // Control de rotación con las teclas A y D
@@ -71,10 +81,38 @@ public class Player : MonoBehaviour
             }
         }
 
-        // Aplicar la rotación al jugador que corresponda
+        // Aplicar la rotación y movimiento
         transform.Rotate(0f, 0f, rotation);
-
-        // Aplicar el movimiento hacia adelante o atrás en la dirección actual
         transform.Translate(Vector3.up * currentSpeed * Time.deltaTime, Space.Self);
+    }
+
+    private void HandleShooting()
+    {
+        // Lógica de disparo (aún no implementada)
+        // Puedes agregar aquí la detección de entrada y la creación de proyectiles.
+        
+    }
+
+    private void TriggerDeath()
+    {
+        if (!isDead)
+        {
+            isDead = true;
+            DeathAnimation();
+        }
+    }
+
+    private void DeathAnimation()
+    {
+        // Lógica para mostrar una animación de muerte (aún no implementada)
+        // Esto podría ser una animación de partículas, cambio de sprite, etc.
+        // Aquí solo mostramos un ejemplo simple de un mensaje de depuración.
+        bool isDead = false; // Sustituye esto por la lógica de detección de muerte real
+
+        if (isDead)
+        {
+            Debug.Log("Jugador " + playerNumber + " murió");
+            // Implementa la animación de muerte o lógica adicional
+        }
     }
 }
