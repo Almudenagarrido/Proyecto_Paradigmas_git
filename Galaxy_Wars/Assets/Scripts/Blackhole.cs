@@ -6,6 +6,7 @@ public class Blackhole : MonoBehaviour
 {
     public int blackholeNumber;
     private float rotationSpeed = 100f;
+
     // Start is called before the first frame update
     void Start()
     {

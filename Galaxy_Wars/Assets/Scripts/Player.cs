@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -13,7 +14,10 @@ public class Player : MonoBehaviour
     private float bottomMargin = -5.35f;
     private float leftMargin = -10.4f;
     private float rightMargin = 10.4f;
-
+    private float blackhole1x = 8.1f;
+    private float blackhole1y = -3.5f;
+    private float blackhole2x = -8.1f;
+    private float blackhole2y = 3.5f;
 
     private void Update()
     {
@@ -22,6 +26,7 @@ public class Player : MonoBehaviour
             HandleMovement();
             HandleShooting();
             HandleFrames();
+            HandleBlackholes();
         }
     }
 
@@ -113,8 +118,26 @@ public class Player : MonoBehaviour
         }
 
         transform.position = currentPosition;
+    }
 
+    private void HandleBlackholes()
+    {
+        Vector3 currentPosition = transform.position;
 
+        float tolerance = 0.01f;
+
+        if (Mathf.Abs(currentPosition.x - blackhole1x) < tolerance && Mathf.Abs(currentPosition.y - blackhole1y) < tolerance)
+        {
+            currentPosition.x = blackhole2x;
+            currentPosition.y = blackhole2y;
+        }
+        else if (Mathf.Abs(currentPosition.x - blackhole2x) < tolerance && Mathf.Abs(currentPosition.y - blackhole2y) < tolerance)
+        {
+            currentPosition.x = blackhole1x;
+            currentPosition.y = blackhole1y;
+        }
+
+        transform.position = currentPosition;
     }
 
     private void HandleShooting()
