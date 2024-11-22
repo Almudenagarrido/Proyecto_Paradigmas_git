@@ -9,6 +9,10 @@ public class Player : MonoBehaviour
     private float currentSpeed = 0f;
     private float rotationSpeed = 300f;
     private bool isDead = false;
+    private float topMargin = 5.3f;
+    private float bottomMargin = -5.35f;
+    private float leftMargin = -10.4f;
+    private float rightMargin = 10.4f;
 
 
     private void Update()
@@ -17,6 +21,7 @@ public class Player : MonoBehaviour
         {
             HandleMovement();
             HandleShooting();
+            HandleFrames();
         }
     }
 
@@ -91,6 +96,32 @@ public class Player : MonoBehaviour
         // Lógica de disparo (aún no implementada)
         // Puedes agregar aquí la detección de entrada y la creación de proyectiles.
         
+    }
+
+    private void HandleFrames()
+    {
+        Vector3 currentPosition = transform.position;
+
+        if (currentPosition.y <= bottomMargin)
+        {
+            currentPosition.y = topMargin;
+        }
+        else if (currentPosition.y >= topMargin)
+        {
+            currentPosition.y = bottomMargin;
+        }
+        if (currentPosition.x <= leftMargin)
+        {
+            currentPosition.x = rightMargin;
+        }
+        else if (currentPosition.x >= rightMargin)
+        {
+            currentPosition.x = leftMargin;
+        }
+
+        transform.position = currentPosition;
+
+
     }
 
     private void TriggerDeath()
