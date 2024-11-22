@@ -6,6 +6,7 @@ public class Blackhole : MonoBehaviour
 {
     public int blackholeNumber;
     private float rotationSpeed = 100f;
+    private Player player;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,5 @@ public class Blackhole : MonoBehaviour
         }
 
         transform.Rotate(0f, 0f, rotation);
-        
     }
 }

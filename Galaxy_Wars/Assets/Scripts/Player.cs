@@ -120,8 +120,6 @@ public class Player : MonoBehaviour
         }
 
         transform.position = currentPosition;
-
-
     }
 
     private void TriggerDeath()
