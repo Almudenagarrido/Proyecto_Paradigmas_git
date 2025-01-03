@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class SceneManager : MonoBehaviour
 {
-    private List<string> Scenes = new List<string>;
+    private List<string> Scenes;
 
     // Start is called before the first frame update
     void Start()
@@ -20,21 +20,21 @@ public class SceneManager : MonoBehaviour
         
     }
    
-    void LoadScene(string nameScene)
+    void LoadScene1(string nameScene)
     {
 
     }
 
-    bool SceneExists(string nameScene)
-    {
-        if (nameScene in Scenes)
-        {
-            return true;
-        }
-        else
-        {
-            Scenes.add(nameScene);
-        }
+    //bool SceneExists(string nameScene)
+    //{
+    //   if (nameScene in Scenes)
+    //    {
+    //        return true;
+    //    }
+    //    else
+    //    {
+    //        Scenes.add(nameScene);
+    //    }
 
-    }
+    //}
 }
