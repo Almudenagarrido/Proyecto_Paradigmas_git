@@ -5,10 +5,12 @@ using System.Collections;
 
 public class MenuController : MonoBehaviour
 {
-    public Dropdown levelDropdown;
-    public Dropdown playersDropdown;
-    public int levelNumber;
+    private Dropdown levelDropdown;
+    private Dropdown playersDropdown;
+    public int levelNumber; //1: level 1, 2: level 2, 3: level 3
     public int playerOption; //1: single player, 2: multiplayer, 3: multilayer ia (hay que hacerlo)
+    public GameObject popUpInstr;
+    
     //public Toggle aiToggle;
     //public Button startButton;
 
@@ -19,7 +21,12 @@ public class MenuController : MonoBehaviour
             DropdownValueChangedLevels(levelDropdown); 
         });
     }
-    
+
+    private void Update()
+    {
+
+    }
+
     void DropdownValueChangedLevels(Dropdown levelsDropdown)
     {
         switch (levelsDropdown.value)
@@ -39,11 +46,17 @@ public class MenuController : MonoBehaviour
         }
         Debug.Log("Valor seleccionado: " + levelNumber);
     }
-
-    private void Update()
+    
+    public void ShowIntructions()
     {
-
+        popUpInstr.SetActive(true);
     }
+
+    public void CloseIntructions()
+    {
+        popUpInstr.SetActive(false);
+    }
+
 
     private void PlayButton(string sceneName)
     {
