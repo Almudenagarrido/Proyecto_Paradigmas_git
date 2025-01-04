@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -7,6 +9,11 @@ public class GameManager : MonoBehaviour
     public int selectedLevel;
     public int numberOfPlayers;
     public bool isSecondPlayerAI;
+    public bool isPlaying = false;
+    public bool endGame = false;
+
+    private SpriteManager spriteManager;
+    private LevelFactory levelFactory;
 
     private void Awake()
     {
@@ -14,18 +21,86 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            InitializeManagers();
+            LoadMenu();
         }
         else
         {
             Destroy(gameObject);
         }
     }
-        public void StartGame(int level, int players, bool useAI)
-    {
-        selectedLevel = level;
-        numberOfPlayers = players;
-        isSecondPlayerAI = useAI;
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene("BasicScene");
+    private void Update()
+    {
+        if (isPlaying && SceneManager.GetActiveScene().name != "BasicSceneLevels")
+        {
+            StartGame();
+        }
+        else if (!isPlaying && SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            LoadMenu();
+        }
+
+        if (endGame)
+        {
+            QuitGame();
+        }
+    }
+
+    private void InitializeManagers()
+    {
+
+        GameObject spriteManagerObject = GameObject.Find("SpriteManager");
+        if (spriteManagerObject == null)
+        {
+            spriteManagerObject = new GameObject("SpriteManager");
+            spriteManager = spriteManagerObject.AddComponent<SpriteManager>();
+        }
+        else
+        {
+            spriteManager = spriteManagerObject.GetComponent<SpriteManager>();
+        }
+
+        GameObject levelFactoryObject = GameObject.Find("LevelFactory");
+        if (levelFactoryObject == null)
+        {
+            levelFactoryObject = new GameObject("LevelFactory");
+            levelFactory = levelFactoryObject.AddComponent<LevelFactory>();
+        }
+        else
+        {
+            levelFactory = levelFactoryObject.GetComponent<LevelFactory>();
+        }
+    }
+
+    private void LoadMenu()
+    {
+        Debug.Log("Cargando el menú...");
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void StartGame()
+    {
+        Debug.Log($"Iniciando juego con nivel {selectedLevel} y {numberOfPlayers} jugadores...");
+        SceneManager.LoadScene("BasicLevelScene");  // Escena Base
+        Invoke(nameof(CreateLevel), 0.1f); // Crear nivel dinamicamente
+    }
+
+    private void CreateLevel()
+    {
+        if (levelFactory != null)
+        {
+            levelFactory.CreateLevel(selectedLevel, numberOfPlayers);
+        }
+        else
+        {
+            Debug.LogError("El LevelFactory no está inicializado.");
+        }
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Saliendo del juego...");
+        Application.Quit();
     }
 }

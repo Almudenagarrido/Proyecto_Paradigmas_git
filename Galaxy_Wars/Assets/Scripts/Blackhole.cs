@@ -8,13 +8,11 @@ public class Blackhole : MonoBehaviour
     private float rotationSpeed = 100f;
     private Player player;
 
-    // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         float rotation = 0f;

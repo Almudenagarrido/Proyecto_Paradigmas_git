@@ -14,6 +14,7 @@ public class SpriteManager : MonoBehaviour
 
     public Sprite player1Sprite;
     public Sprite player2Sprite;
+    public Sprite playerAISprite;
 
     public Sprite meteoriteSprite;
 
@@ -37,7 +38,6 @@ public class SpriteManager : MonoBehaviour
         }
     }
 
-    // Métodos para obtener sprites según el tipo de objeto
     public Sprite GetPlanetSprite(Planet.PlanetType type)
     {
         switch (type)
@@ -53,10 +53,20 @@ public class SpriteManager : MonoBehaviour
         }
     }
 
-    public Sprite GetNoiseSprite(int index)
+    public Sprite[] GetNoiseSprites(Planet.PlanetType type)
     {
-        if (index < 0 || index >= noiseBounceSprites.Length) return null;
-        return noiseBounceSprites[index];
+        switch (type)
+        {
+            case Planet.PlanetType.Bounce:
+                return noiseBounceSprites;
+
+            case Planet.PlanetType.Gravity:
+                return noiseGravitySprites;
+
+            case Planet.PlanetType.Death:
+                return noiseDeathSprites;
+        }
+        return null; 
     }
 
     public Sprite GetBlackholeSprite(int type)
@@ -68,7 +78,10 @@ public class SpriteManager : MonoBehaviour
 
     public Sprite GetPlayerSprite(int playerNumber)
     {
-        return playerNumber == 1 ? player1Sprite : player2Sprite;
+        if (playerNumber == 1) return player1Sprite;
+        if (playerNumber == 2) return player2Sprite;
+        if (playerNumber == 3) return playerAISprite;
+        return null;
     }
 
     public Sprite GetBulletSprite(bool isPlayerBullet)

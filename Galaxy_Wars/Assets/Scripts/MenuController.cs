@@ -1,75 +1,54 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
-    private Dropdown levelDropdown;
-    private Dropdown playersDropdown;
-    public int levelNumber; //1: level 1, 2: level 2, 3: level 3
-    public int playerOption; //1: single player, 2: multiplayer, 3: multilayer ia (hay que hacerlo)
+    public Dropdown levelDropdown;
+    public Dropdown playersDropdown;
     public GameObject popUpInstr;
-    
-    //public Toggle aiToggle;
-    //public Button startButton;
 
     private void Start()
     {
-        //startButton.onClick.AddListener(OnStartGame);
-        levelDropdown.onValueChanged.AddListener(delegate { 
-            DropdownValueChangedLevels(levelDropdown); 
-        });
+        // Suscribirse a cambios en los dropdowns
+        levelDropdown.onValueChanged.AddListener(delegate { DropdownValueChangedLevels(); });
+        playersDropdown.onValueChanged.AddListener(delegate { DropdownValueChangedPlayers(); });
     }
 
-    private void Update()
+    private void DropdownValueChangedLevels()
     {
-
+        // Guardar selección de nivel en el GameManager
+        int selectedLevel = levelDropdown.value + 1;
+        GameManager.Instance.selectedLevel = selectedLevel;
+        Debug.Log("Nivel seleccionado: " + selectedLevel);
     }
 
-    void DropdownValueChangedLevels(Dropdown levelsDropdown)
+    private void DropdownValueChangedPlayers()
     {
-        switch (levelsDropdown.value)
-        {
-            case 0:
-                levelNumber = 1;
-                break;
-            case 1:
-                levelNumber = 2;
-                break;
-            case 2:
-                levelNumber = 3;
-                break;
-            default:
-                levelNumber = 1;
-                break;
-        }
-        Debug.Log("Valor seleccionado: " + levelNumber);
+        // Guardar selección de jugadores en el GameManager
+        int playerOption = playersDropdown.value + 1;
+        GameManager.Instance.numberOfPlayers = playerOption;
+        Debug.Log("Jugadores seleccionados: " + playerOption);
     }
-    
-    public void ShowIntructions()
+
+    public void ShowInstructions()
     {
         popUpInstr.SetActive(true);
     }
 
-    public void CloseIntructions()
+    public void CloseInstructions()
     {
         popUpInstr.SetActive(false);
     }
 
-
-    private void PlayButton(string sceneName)
+    public void OnPlayButtonPressed()
     {
-        //SceneManager.LoadScene(sceneName);
+        // Establecer el booleano "jugando" en true y notificar al GameManager
+        GameManager.Instance.isPlaying = true;
+        Debug.Log("Iniciando el juego...");
     }
-
-    private void OnStartGame()
+    public void OnQuitButtonPressed()
     {
-        //int selectedLevel = levelDropdown.value + 1; // Asumiendo 1, 2, 3.
-        //int numberOfPlayers = playersDropdown.value + 1; // 1 o 2 jugadores.
-        //bool useAI = aiToggle.isOn;
-
-        //GameManager.Instance.StartGame(selectedLevel, numberOfPlayers, useAI);
+        GameManager.Instance.endGame = true;
+        Debug.Log("Saliendo del juego...");
     }
 }
-    
-

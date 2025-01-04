@@ -5,23 +5,22 @@ public class LevelFactory : MonoBehaviour
     public GameObject planetPrefab;
     public GameObject blackholePrefab;
     public GameObject playerPrefab;
+    private GameObject levelRoot;
 
-    private GameObject sceneRoot;
-
-    private void Start()
+    public void CreateLevel(int level, int players)
     {
-        sceneRoot = new GameObject("LevelRoot");
+        if (levelRoot != null)
+        {
+            Destroy(levelRoot);
+        }
 
-        int level = GameManager.Instance.selectedLevel;
-        int players = GameManager.Instance.numberOfPlayers;
+        levelRoot = new GameObject("LevelRoot");
 
-        // Crear elementos según el nivel.
         CreatePlanets(level);
-
-        // Crear jugadores.
         CreatePlayers(players);
+        CreateBlackholes(level);
 
-        Debug.Log("Level created!");
+        Debug.Log($"Nivel {level} creado con {players} jugadores.");
     }
 
     private void CreatePlanets(int level)
@@ -37,24 +36,35 @@ public class LevelFactory : MonoBehaviour
         if (level == 3)
         {
             AddPlanet(new Vector2(-3, 0), Planet.PlanetType.Death);
-            //AddBlackhole(new Vector2(5, 5));
         }
     }
 
     private void AddPlanet(Vector2 position, Planet.PlanetType type)
     {
-        GameObject planet = Instantiate(planetPrefab, position, Quaternion.identity, sceneRoot.transform);
+        GameObject planet = Instantiate(planetPrefab, position, Quaternion.identity, levelRoot.transform);
         Planet planetComponent = planet.GetComponent<Planet>();
         planetComponent.planetType = type;
 
         // Asignar sprite del planeta y ruido desde el SpriteManager
         planetComponent.planetSprite = SpriteManager.Instance.GetPlanetSprite(type);
-        planetComponent.noiseSprites = SpriteManager.Instance.noiseBounceSprites;
+        planetComponent.noiseSprites = SpriteManager.Instance.GetNoiseSprites(type);
     }
 
-    private void AddBlackhole(Vector2 position, int blackholeNumber)
+    private void CreateBlackholes(int level)
     {
-        GameObject blackhole = Instantiate(blackholePrefab, position, Quaternion.identity, sceneRoot.transform);
+        if (level >= 2)
+        {
+            AddBlackHole(new Vector2(-2, 2), 1);
+        }
+        if (level == 3)
+        {
+            AddBlackHole(new Vector2(0, 3), 2);
+        }
+    }
+
+    private void AddBlackHole(Vector2 position, int blackholeNumber)
+    {
+        GameObject blackhole = Instantiate(blackholePrefab, position, Quaternion.identity, levelRoot.transform);
         Blackhole blackholeComponent = blackhole.GetComponent<Blackhole>();
         blackholeComponent.blackholeNumber = blackholeNumber;
 
@@ -66,19 +76,23 @@ public class LevelFactory : MonoBehaviour
     {
         for (int i = 0; i < players; i++)
         {
-            GameObject player = Instantiate(playerPrefab, new Vector2(-5 + i * 2, 0), Quaternion.identity, sceneRoot.transform);
+            GameObject player = Instantiate(playerPrefab, new Vector2(-5 + i * 2, 0), Quaternion.identity, levelRoot.transform);
             Player playerComponent = player.GetComponent<Player>();
-            playerComponent.playerNumber = i + 1;
 
-            // Asignar sprite desde el SpriteManager
-            player.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.GetPlayerSprite(i + 1);
-
-            // Configurar IA si es necesario
             if (i == 1 && GameManager.Instance.isSecondPlayerAI)
             {
-                //player.AddComponent<PlayerAI>();
+                playerComponent.playerNumber = 3;
+                player.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.GetPlayerSprite(3);
             }
+            else
+            {
+                playerComponent.playerNumber = i + 1;
+                player.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.GetPlayerSprite(i + 1);
+            }
+
+            Debug.Log($"Jugador {playerComponent.playerNumber} creado en posición {player.transform.position} - {(i == 1 && GameManager.Instance.isSecondPlayerAI ? "IA" : "Humano")}");
         }
     }
+
 
 }

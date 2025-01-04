@@ -57,6 +57,7 @@ public class Player : MonoBehaviour
                 currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * Time.deltaTime);
             }
         }
+
         // Control de movimiento para el Jugador 2
         else if (playerNumber == 2)
         {
@@ -84,6 +85,11 @@ public class Player : MonoBehaviour
                 // Desacelerar gradualmente cuando no hay entrada
                 currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * Time.deltaTime);
             }
+        }
+
+        else if (playerNumber == 3)
+        { 
+            // Aqui tenemos que diseñar la IA
         }
 
         // Aplicar la rotación y movimiento
