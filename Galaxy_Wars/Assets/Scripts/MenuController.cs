@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using JetBrains.Annotations;
 
 public class MenuController : MonoBehaviour
 {
-    public Dropdown levelDropdown;
-    public Dropdown playersDropdown;
+    public TMP_Dropdown levelDropdown;
+    public TMP_Dropdown playersDropdown;
     public GameObject popUpInstr;
 
     private void Start()
@@ -17,7 +19,7 @@ public class MenuController : MonoBehaviour
     private void DropdownValueChangedLevels()
     {
         // Guardar selección de nivel en el GameManager
-        int selectedLevel = levelDropdown.value + 1;
+        int selectedLevel = levelDropdown.value;
         GameManager.Instance.selectedLevel = selectedLevel;
         Debug.Log("Nivel seleccionado: " + selectedLevel);
     }
@@ -25,7 +27,7 @@ public class MenuController : MonoBehaviour
     private void DropdownValueChangedPlayers()
     {
         // Guardar selección de jugadores en el GameManager
-        int playerOption = playersDropdown.value + 1;
+        int playerOption = playersDropdown.value;
         GameManager.Instance.numberOfPlayers = playerOption;
         Debug.Log("Jugadores seleccionados: " + playerOption);
     }
@@ -51,4 +53,8 @@ public class MenuController : MonoBehaviour
         GameManager.Instance.endGame = true;
         Debug.Log("Saliendo del juego...");
     }
+
+    public int GetLevel() { return levelDropdown.value; }
+
+    public int GetPlayers() { return playersDropdown.value; }
 }

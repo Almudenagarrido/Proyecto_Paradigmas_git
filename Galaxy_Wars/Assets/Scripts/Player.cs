@@ -4,11 +4,12 @@ public class Player : MonoBehaviour
 {
     public float maxSpeed = 15f;
     private float acceleration = 8f;
-    private float deceleration = 1f;
+    private float deceleration = 2f;
     public int playerNumber;
     private float currentSpeed = 0f;
     private float rotationSpeed = 300f;
     private bool isDead = false;
+
     private float topMargin = 5.3f;
     private float bottomMargin = -5.35f;
     private float leftMargin = -10.4f;
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour
             HandleMovement();
             HandleShooting();
             HandleFrames();
+            //HandleBlackholes();
         }
     }
 
@@ -148,6 +150,14 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Jugador " + playerNumber + " murió");
             // Implementa la animación de muerte o lógica adicional
+        }
+    }
+
+    private void HandleBlackholes(Collision colission)
+    {
+        if (colission.gameObject.CompareTag("Wormhole"))
+        {
+
         }
     }
 }

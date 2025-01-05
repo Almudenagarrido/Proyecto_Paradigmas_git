@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    private MenuController menuController;
     public int selectedLevel;
     public int numberOfPlayers;
     public bool isSecondPlayerAI;
@@ -79,8 +80,22 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void returnLevel()
+    {
+        menuController = GetComponent<MenuController>();
+        selectedLevel = menuController.GetLevel();
+    }
+
+    public void returnPlayers()
+    {
+        menuController = GetComponent<MenuController>();
+        numberOfPlayers = menuController.GetPlayers();
+    }
+
     public void StartGame()
     {
+        returnLevel();
+        returnPlayers();
         Debug.Log($"Iniciando juego con nivel {selectedLevel} y {numberOfPlayers} jugadores...");
         SceneManager.LoadScene("BasicLevelScene");  // Escena Base
         Invoke(nameof(CreateLevel), 0.1f); // Crear nivel dinamicamente
