@@ -503,8 +503,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f336abcf37350b4428405acbdf78d66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedLevel: 0
-  numberOfPlayers: 0
   isSecondPlayerAI: 0
   isPlaying: 0
   endGame: 0
@@ -1412,8 +1410,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f336abcf37350b4428405acbdf78d66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedLevel: 0
-  numberOfPlayers: 0
   isSecondPlayerAI: 0
   isPlaying: 0
   endGame: 0
@@ -1599,7 +1595,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000015258789}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 28}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &895508109
@@ -1788,7 +1784,7 @@ Transform:
   m_GameObject: {fileID: 901523785}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.01, y: 2.78, z: 0}
+  m_LocalPosition: {x: -0.01, y: 3.3, z: 0}
   m_LocalScale: {x: 1.3128, y: 1.3307, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3490,7 +3486,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 124279108}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.8507246
+  m_Size: 0.85072446
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4589,8 +4585,8 @@ Transform:
   m_GameObject: {fileID: 2060972233}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.1}
-  m_LocalScale: {x: 8.5, y: 4, z: 1}
+  m_LocalPosition: {x: 0.0149, y: 0, z: 0.1}
+  m_LocalScale: {x: 8.69834, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -4704,7 +4700,7 @@ Transform:
   m_GameObject: {fileID: 2114755129}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.14000002, y: 2.8700001, z: 0}
+  m_LocalPosition: {x: -0.14000002, y: 3.22, z: 0}
   m_LocalScale: {x: 1.041709, y: 1.0387872, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

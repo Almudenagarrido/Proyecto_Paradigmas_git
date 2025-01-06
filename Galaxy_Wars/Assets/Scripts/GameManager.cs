@@ -1,15 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    private MenuController menuController;
-    public int selectedLevel;
-    public int numberOfPlayers;
-    public bool isSecondPlayerAI;
+    public int? selectedLevel = null;
+    public int? numberOfPlayers = null;
+    public bool isSecondPlayerAI = false;
     public bool isPlaying = false;
     public bool endGame = false;
 
@@ -31,26 +29,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (isPlaying && SceneManager.GetActiveScene().name != "BasicSceneLevels")
-        {
-            StartGame();
-        }
-        else if (!isPlaying && SceneManager.GetActiveScene().name != "MainMenu")
-        {
-            LoadMenu();
-        }
-
-        if (endGame)
-        {
-            QuitGame();
-        }
-    }
-
     private void InitializeManagers()
     {
-
         GameObject spriteManagerObject = GameObject.Find("SpriteManager");
         if (spriteManagerObject == null)
         {
@@ -74,42 +54,37 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void LoadMenu()
+    public void LoadMenu()
     {
         Debug.Log("Cargando el menú...");
+        ResetSelections();
         SceneManager.LoadScene("MainMenu");
-    }
-
-    public void returnLevel()
-    {
-        menuController = GetComponent<MenuController>();
-        selectedLevel = menuController.GetLevel();
-    }
-
-    public void returnPlayers()
-    {
-        menuController = GetComponent<MenuController>();
-        numberOfPlayers = menuController.GetPlayers();
     }
 
     public void StartGame()
     {
-        returnLevel();
-        returnPlayers();
-        Debug.Log($"Iniciando juego con nivel {selectedLevel} y {numberOfPlayers} jugadores...");
-        SceneManager.LoadScene("BasicLevelScene");  // Escena Base
-        Invoke(nameof(CreateLevel), 0.1f); // Crear nivel dinamicamente
+        if (selectedLevel.HasValue && numberOfPlayers.HasValue)
+        {
+            isPlaying = true;
+            Debug.Log($"Iniciando juego con nivel {selectedLevel.Value} y {numberOfPlayers.Value} jugadores...");
+            SceneManager.LoadScene("BasicSceneLevels");
+            Invoke(nameof(CreateLevel), 0.1f);
+        }
+        else
+        {
+            Debug.LogError("No se han seleccionado el nivel o el número de jugadores. No se puede iniciar el juego.");
+        }
     }
 
     private void CreateLevel()
     {
-        if (levelFactory != null)
+        if (levelFactory != null && selectedLevel.HasValue && numberOfPlayers.HasValue)
         {
-            levelFactory.CreateLevel(selectedLevel, numberOfPlayers);
+            levelFactory.CreateLevel(selectedLevel.Value, numberOfPlayers.Value);
         }
         else
         {
-            Debug.LogError("El LevelFactory no está inicializado.");
+            Debug.LogError("El LevelFactory no está inicializado o faltan configuraciones.");
         }
     }
 
@@ -117,5 +92,26 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Saliendo del juego...");
         Application.Quit();
+    }
+
+    public void SetLevel(int level)
+    {
+        selectedLevel = level;
+        Debug.Log($"Nivel seleccionado: {level}");
+    }
+
+    public void SetPlayers(int players)
+    {
+        numberOfPlayers = players;
+        Debug.Log($"Número de jugadores seleccionado: {players}");
+    }
+
+    private void ResetSelections()
+    {
+        selectedLevel = null;
+        numberOfPlayers = null;
+        isPlaying = false;
+        endGame = false;
+        Debug.Log("Selecciones reiniciadas.");
     }
 }

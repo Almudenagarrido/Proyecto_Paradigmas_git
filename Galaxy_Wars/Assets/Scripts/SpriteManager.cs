@@ -49,6 +49,7 @@ public class SpriteManager : MonoBehaviour
             case Planet.PlanetType.Death:
                 return deathSprite;
             default:
+                Debug.LogWarning($"Tipo de planeta no reconocido: {type}");
                 return null;
         }
     }
@@ -59,33 +60,56 @@ public class SpriteManager : MonoBehaviour
         {
             case Planet.PlanetType.Bounce:
                 return noiseBounceSprites;
-
             case Planet.PlanetType.Gravity:
                 return noiseGravitySprites;
-
             case Planet.PlanetType.Death:
                 return noiseDeathSprites;
+            default:
+                Debug.LogWarning($"Tipo de ruido para planeta no reconocido: {type}");
+                return null;
         }
-        return null; 
     }
 
     public Sprite GetBlackholeSprite(int type)
     {
-        if (type == 1) return blackholeSprite1;
-        if (type == 2) return blackholeSprite2;
-        return null;
+        switch (type)
+        {
+            case 1:
+                return blackholeSprite1;
+            case 2:
+                return blackholeSprite2;
+            default:
+                Debug.LogWarning($"Tipo de agujero negro no reconocido: {type}");
+                return null;
+        }
     }
 
     public Sprite GetPlayerSprite(int playerNumber)
     {
-        if (playerNumber == 1) return player1Sprite;
-        if (playerNumber == 2) return player2Sprite;
-        if (playerNumber == 3) return playerAISprite;
-        return null;
+        switch (playerNumber)
+        {
+            case 1:
+                return player1Sprite;
+            case 2:
+                return player2Sprite;
+            case 3:
+                return playerAISprite;
+            default:
+                Debug.LogWarning($"Número de jugador no reconocido: {playerNumber}");
+                return null;
+        }
     }
 
-    public Sprite GetBulletSprite(bool isPlayerBullet)
+    public Sprite GetBulletSprite()
     {
-        return isPlayerBullet ? bulletSprite : bulletSprite;
+        return bulletSprite;
+    }
+    public Sprite GetEnemySprite()
+    {
+        return enemyShipSprite;
+    }
+    public Sprite GetMeteoriteSprite()
+    {
+        return meteoriteSprite;
     }
 }
