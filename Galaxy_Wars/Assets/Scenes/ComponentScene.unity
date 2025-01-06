@@ -130,6 +130,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7561014550489450637, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
+      propertyPath: m_Mass
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: -7508626911684338108, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -139,12 +143,32 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5383011102486544780, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
+      propertyPath: maxSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5383011102486544780, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
+      propertyPath: bulletSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5383011102486544780, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 98113232596429073, guid: 80b4ac2ceb156ef40accdf0814a661ad, type: 3}
+    - target: {fileID: 5383011102486544780, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
       propertyPath: playerNumber
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5383011102486544780, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
+      propertyPath: shootingPoint
+      value: 
+      objectReference: {fileID: 34550383}
+    - target: {fileID: 5383011102486544780, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
+      propertyPath: timeBetweenBullets
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 8391715398261203473, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5536
+      value: 0.7032935
       objectReference: {fileID: 0}
     - target: {fileID: 8391715398261203473, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
       propertyPath: m_LocalScale.y
@@ -156,7 +180,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8391715398261203473, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.25000003
+      value: -0.1662
       objectReference: {fileID: 0}
     - target: {fileID: 8391715398261203473, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -203,6 +227,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
+--- !u!4 &34550383 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8391715398261203473, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
+  m_PrefabInstance: {fileID: 5323079}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,9 +507,10 @@ GameObject:
   - component: {fileID: 776567138}
   - component: {fileID: 776567137}
   - component: {fileID: 776567140}
+  - component: {fileID: 776567141}
   m_Layer: 0
-  m_Name: Blackhole
-  m_TagString: Untagged
+  m_Name: Blackhole2
+  m_TagString: Wormhole
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -497,8 +527,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a7a6a6476f74b428f42179bd8651dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackholeNumber: 2
-  exitWormhole: {fileID: 0}
 --- !u!212 &776567138
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -595,12 +623,27 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
+--- !u!114 &776567141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776567136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca94be7cc7e0f174895ef92fc784e1ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exitWormhole: {fileID: 1671654876}
+  tiempoEspera: 2
+  blackholeNumber: 2
 --- !u!1 &975267828
 GameObject:
   m_ObjectHideFlags: 0
@@ -1075,9 +1118,10 @@ GameObject:
   - component: {fileID: 1671654875}
   - component: {fileID: 1671654874}
   - component: {fileID: 1671654877}
+  - component: {fileID: 1671654878}
   m_Layer: 0
-  m_Name: Blackhole
-  m_TagString: Untagged
+  m_Name: Blackhole1
+  m_TagString: Wormhole
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1094,8 +1138,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a7a6a6476f74b428f42179bd8651dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackholeNumber: 1
-  exitWormhole: {fileID: 0}
 --- !u!212 &1671654875
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1192,12 +1234,27 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
+--- !u!114 &1671654878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671654873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca94be7cc7e0f174895ef92fc784e1ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exitWormhole: {fileID: 776567139}
+  tiempoEspera: 2
+  blackholeNumber: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

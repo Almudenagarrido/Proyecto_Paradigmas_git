@@ -74,7 +74,7 @@ public class LevelFactory : MonoBehaviour
     {
         GameObject blackhole = Instantiate(blackholePrefab, position, Quaternion.identity, levelRoot.transform);
 
-        Blackhole blackholeComponent = blackhole.GetComponent<Blackhole>();
+        WormholeController blackholeComponent = blackhole.GetComponent<WormholeController>();
         blackholeComponent.blackholeNumber = blackholeNumber;
 
         Sprite blackholeSprite = SpriteManager.Instance.GetBlackholeSprite(blackholeNumber);

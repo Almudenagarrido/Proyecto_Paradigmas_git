@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float maxSpeed = 15f;
-    private float acceleration = 8f;
-    private float deceleration = 2f;
+    public float maxSpeed;
+    private float acceleration = 6f;
+    private float deceleration = 3f;
     public int playerNumber;
     private float currentSpeed = 0f;
     private float rotationSpeed = 300f;
@@ -15,17 +15,31 @@ public class Player : MonoBehaviour
     private float leftMargin = -10.4f;
     private float rightMargin = 10.4f;
 
+    private bool shooting = false;
+    public GameObject bulletPrefab;
+    public Transform shootingPoint;
+    public float bulletSpeed = 7f;
+    public float timeBetweenBullets = 0.2f;
+    private float lastShot = 0f;
+
+    private Rigidbody2D rb;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     private void Update()
     {
         if (!isDead)
         {
             HandleMovement();
-            HandleShooting();
             HandleFrames();
-            //HandleBlackholes();
+            HandleShooting();
         }
     }
+
+    public int GetPlayerNumber() { return playerNumber; }
 
     private void HandleMovement()
     {
@@ -89,21 +103,9 @@ public class Player : MonoBehaviour
             }
         }
 
-        else if (playerNumber == 3)
-        { 
-            // Aqui tenemos que diseñar la IA
-        }
-
-        // Aplicar la rotación y movimiento
+        // Aplicar la rotación y movimiento sin afectar el Rigidbody (sin fuerzas externas)
         transform.Rotate(0f, 0f, rotation);
         transform.Translate(Vector3.up * currentSpeed * Time.deltaTime, Space.Self);
-    }
-
-    private void HandleShooting()
-    {
-        // Lógica de disparo (aún no implementada)
-        // Puedes agregar aquí la detección de entrada y la creación de proyectiles.
-        
     }
 
     private void HandleFrames()
@@ -130,6 +132,58 @@ public class Player : MonoBehaviour
         transform.position = currentPosition;
     }
 
+    private void HandleShooting()
+    {
+        if (playerNumber == 1)
+        {
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                shooting = true;
+            }
+            else
+            {
+                shooting = false;
+            }
+            if (shooting && Time.time > lastShot + timeBetweenBullets)
+            {
+                Shoot();
+                lastShot = Time.time;
+            }
+        }
+        else if (playerNumber == 2)
+        {
+            if (Input.GetKeyUp(KeyCode.Q))
+            {
+                shooting = true;
+            }
+            else
+            {
+                shooting = false;
+            }
+            if (shooting && Time.time > lastShot + timeBetweenBullets)
+            {
+                Shoot();
+                lastShot = Time.time;
+            }
+        }
+    }
+
+    void Shoot()
+    {
+        // Instancia la bala en el punto de disparo
+        GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, shootingPoint.rotation); // Mantiene la rotación del shootingPoint
+
+        // Aplica velocidad hacia adelante (sin importar la rotación global de la nave)
+        Rigidbody2D rigidBullet = bullet.GetComponent<Rigidbody2D>();
+
+        // La velocidad de la bala siempre se aplica hacia adelante respecto al frente de la nave
+        rigidBullet.velocity = shootingPoint.up * bulletSpeed;  // 'shootingPoint.up' está alineado al frente de la nave, sin importar la rotación global
+
+        // Asegurarse de que la nave no se ve afectada por el retroceso
+        rb.velocity = Vector2.zero;  // El retroceso no afecta a la nave
+    }
+
+
     private void TriggerDeath()
     {
         if (!isDead)
@@ -150,14 +204,6 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Jugador " + playerNumber + " murió");
             // Implementa la animación de muerte o lógica adicional
-        }
-    }
-
-    private void HandleBlackholes(Collision colission)
-    {
-        if (colission.gameObject.CompareTag("Wormhole"))
-        {
-
         }
     }
 }
