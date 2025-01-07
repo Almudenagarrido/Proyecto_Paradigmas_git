@@ -49,6 +49,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 15
   playerNumber: 0
+  smokeSprites: []
+  bulletPrefab: {fileID: 98113232596429073, guid: 80b4ac2ceb156ef40accdf0814a661ad, type: 3}
+  shootingPoint: {fileID: 0}
+  bulletSpeed: 7
+  timeBetweenBullets: 0.15
 --- !u!212 &-7508626911684338108
 SpriteRenderer:
   m_ObjectHideFlags: 0

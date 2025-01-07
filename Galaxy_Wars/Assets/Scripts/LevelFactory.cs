@@ -1,12 +1,18 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelFactory : MonoBehaviour
 {
     public GameObject planetPrefab;
     public GameObject wormholePrefab;
     public GameObject playerPrefab;
+    public GameObject bulletPrefab;
     private GameObject levelRoot;
+
+    private Image backgroundBar;
+    private Image fillBar;
 
     public void CreateLevel(int level, int players)
     {
@@ -68,12 +74,18 @@ public class LevelFactory : MonoBehaviour
     {
         if (level == 3)
         {
-            AddWormhole(new Vector2(-3.4f, 3.6f), 1, 1.2f);
-            AddWormhole(new Vector2(8.8f, -2.3f), 2, 1.2f);
+            GameObject wormhole1 = AddWormhole(new Vector2(-3.4f, 3.6f), 1, 1.2f);
+            GameObject wormhole2 = AddWormhole(new Vector2(8.8f, -2.3f), 2, 1.2f);
+
+            WormholeController comp1 = wormhole1.GetComponent<WormholeController>();
+            WormholeController comp2 = wormhole2.GetComponent<WormholeController>();
+
+            comp1.exitWormhole = comp2.transform;
+            comp2.exitWormhole = comp1.transform;
         }
     }
 
-    private void AddWormhole(Vector2 position, int wormholeNumber, float scale)
+    private GameObject AddWormhole(Vector2 position, int wormholeNumber, float scale)
     {
         GameObject wormhole = Instantiate(wormholePrefab, position, Quaternion.identity, levelRoot.transform);
 
@@ -89,7 +101,9 @@ public class LevelFactory : MonoBehaviour
         if (collider != null)
         {
             collider.radius = wormhole.GetComponent<SpriteRenderer>().bounds.extents.x / wormhole.transform.localScale.x;
+            collider.isTrigger = true;
         }
+        return wormhole;
     }
 
     private void CreatePlayers(int players)
@@ -113,9 +127,12 @@ public class LevelFactory : MonoBehaviour
 
             // Crear el jugador en la posición asignada
             GameObject player = Instantiate(playerPrefab, position, Quaternion.identity, levelRoot.transform);
-            Player playerComponent = player.GetComponent<Player>();
+            Player playerComponent = player.GetComponent<Player>();      
             player.GetComponent<Player>().smokeSprites = SpriteManager.Instance.GetSmokes();
             player.transform.localScale = new Vector3(0.8f, 0.8f, 1.0f);
+            playerComponent.shootingPoint = playerComponent.transform;
+
+            playerComponent.bulletPrefab = bulletPrefab;
 
             // Configurar si el jugador es IA o humano
             if (i == 1 && GameManager.Instance.isSecondPlayerAI)
@@ -131,6 +148,15 @@ public class LevelFactory : MonoBehaviour
 
             Debug.Log($"Jugador {playerComponent.playerNumber} creado en posición {player.transform.position} - {(i == 1 && GameManager.Instance.isSecondPlayerAI ? "IA" : "Humano")}");
         }
+    }
+
+    private void CreateScores()
+    {
+        Sprite background = Resources.Load<Sprite>("Background");
+        backgroundBar.sprite = background;
+
+        Sprite fill = Resources.Load<Sprite>("Fill");
+        fillBar.sprite = fill;
     }
 
 }

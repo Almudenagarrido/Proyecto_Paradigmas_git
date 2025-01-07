@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     private Button playButton;
+    private Button exitButton;
 
     public int selectedLevel = 0;
     public int numberOfPlayers = 0;
@@ -21,20 +23,28 @@ public class GameManager : MonoBehaviour
     private SpriteManager spriteManager;
     private LevelFactory levelFactory;
 
+    public Image healthBar;
+    private int maxLife = 100;
+
+    public Text scoreText;
+
     private void Start()
     {
         playButton = GameObject.Find("PlayButton").GetComponent<Button>();
+        ///exitButton = GameObject.Find("ExitButton").GetComponent<Button>();
 
         if (playButton != null)
         {
             playButton.onClick.AddListener(StartGame);
+            //exitButton.onClick.AddListener(EndGame);
         }
         else
         {
             Debug.LogError("PlayButton no encontrado. Asegúrate de que el botón está en la escena y tiene el nombre correcto.");
         }
     }
-    
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -77,6 +87,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadMenu()
     {
+        healthBar.gameObject.SetActive(false);
         Debug.Log("Cargando el menú...");
         ResetSelections();
         SceneManager.LoadScene("MainMenu");
@@ -88,6 +99,7 @@ public class GameManager : MonoBehaviour
         {
             isPlaying = true;
             Debug.Log($"Iniciando juego con nivel {selectedLevel} y {numberOfPlayers} jugadores...");
+            
             SceneManager.LoadScene("BasicSceneLevels");
             Invoke(nameof(CreateLevel), 0.1f);
         }
@@ -196,14 +208,20 @@ public class GameManager : MonoBehaviour
             {
                 lifePlayers[player] = 0; // Asegurarse de que la vida no sea negativa
             }
+            if (healthBar != null)
+            {
+                healthBar.fillAmount = lifePlayers[player]/maxLife;
+            }
             Debug.Log($"Jugador {player} recibió {hurt} de daño por {reason}. Vida restante: {lifePlayers[player]}");
-            
+
             if (lifePlayers[player] == 0)
             {
                 NotifyPlayerDeath(player);
             }
         }
     }
+
+
 
     public void AddPoints(int player, string objective)
     {
@@ -233,6 +251,18 @@ public class GameManager : MonoBehaviour
         {
             pointsPlayers[player] += points;
             Debug.Log($"Jugador {player} ganó {points} puntos por destruir {objective}. Puntos totales: {pointsPlayers[player]}");
+        }
+
+        if (scoreText != null)
+        {
+            if (numberOfPlayers == 1)
+            {
+                scoreText.text = $"Jugador 1: {pointsPlayers[1]}";
+            }
+            else if (numberOfPlayers == 2)
+            {
+                scoreText.text = $"Jugador 1: {pointsPlayers[1]} | Jugador 2: {pointsPlayers[2]}";
+            }
         }
     }
 
