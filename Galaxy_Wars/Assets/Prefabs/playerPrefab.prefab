@@ -51,7 +51,7 @@ MonoBehaviour:
   playerNumber: 0
   smokeSprites: []
   bulletPrefab: {fileID: 98113232596429073, guid: 80b4ac2ceb156ef40accdf0814a661ad, type: 3}
-  shootingPoint: {fileID: 0}
+  shootingPoint: {fileID: 8391715398261203473}
   bulletSpeed: 7
   timeBetweenBullets: 0.15
 --- !u!212 &-7508626911684338108

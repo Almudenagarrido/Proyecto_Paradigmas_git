@@ -10,7 +10,9 @@ TagManager:
   - BulletPlayer
   - EnemyBullet
   - PlayButton
-  - ExitButton
+  - Enemy
+  - QuitButton
+  - BackButton
   layers:
   - Default
   - TransparentFX

@@ -11,9 +11,6 @@ public class LevelFactory : MonoBehaviour
     public GameObject bulletPrefab;
     private GameObject levelRoot;
 
-    private Image backgroundBar;
-    private Image fillBar;
-
     public void CreateLevel(int level, int players)
     {
         // Reiniciar el nivel actual
@@ -149,14 +146,4 @@ public class LevelFactory : MonoBehaviour
             Debug.Log($"Jugador {playerComponent.playerNumber} creado en posición {player.transform.position} - {(i == 1 && GameManager.Instance.isSecondPlayerAI ? "IA" : "Humano")}");
         }
     }
-
-    private void CreateScores()
-    {
-        Sprite background = Resources.Load<Sprite>("Background");
-        backgroundBar.sprite = background;
-
-        Sprite fill = Resources.Load<Sprite>("Fill");
-        fillBar.sprite = fill;
-    }
-
 }

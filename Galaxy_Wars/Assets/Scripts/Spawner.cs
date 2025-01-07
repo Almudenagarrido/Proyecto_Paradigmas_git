@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public GameObject meteoritoPrefab;
+    public GameObject prefab;
     public float intervaloGeneracion = 1.5f;
 
 
@@ -14,7 +14,7 @@ public class Spawner : MonoBehaviour
     void GenerarMeteorito()
     {
         Vector3 posicion = ObtenerPosicionBordePantalla();
-        Instantiate(meteoritoPrefab, posicion, Quaternion.identity);
+        Instantiate(prefab, posicion, Quaternion.identity);
     }
 
     // Genera una posición aleatoria en un borde de la pantalla

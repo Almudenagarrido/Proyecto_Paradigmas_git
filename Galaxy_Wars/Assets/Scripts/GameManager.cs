@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     private Button playButton;
     private Button exitButton;
+    private Button backButton;
 
     public int selectedLevel = 0;
     public int numberOfPlayers = 0;
@@ -19,29 +20,34 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<int, int> lifePlayers = new Dictionary<int, int> { { 1, 100 }, { 2, 100 } };
     public Dictionary<int, int> pointsPlayers = new Dictionary<int, int> { { 1, 0 }, { 2, 0 } };
+    public List<GameObject> playerLifeBars = new List<GameObject>();
+    public List<GameObject> playerFillBars = new List<GameObject>();
 
     private SpriteManager spriteManager;
     private LevelFactory levelFactory;
 
-    public Image healthBar;
-    private int maxLife = 100;
-
-    public Text scoreText;
-
     private void Start()
     {
         playButton = GameObject.Find("PlayButton").GetComponent<Button>();
-        ///exitButton = GameObject.Find("ExitButton").GetComponent<Button>();
+        //exitButton = GameObject.Find("ExitButton").GetComponent<Button>();
+        backButton = GameObject.Find("BackButton").GetComponent<Button>();
 
+        // Verificar si el replayButton ha sido asignado correctamente
+        if (backButton != null)
+        {
+            backButton.onClick.AddListener(EndGame);  // Asignamos el método EndGame al botón
+        }
         if (playButton != null)
         {
             playButton.onClick.AddListener(StartGame);
             //exitButton.onClick.AddListener(EndGame);
         }
-        else
-        {
-            Debug.LogError("PlayButton no encontrado. Asegúrate de que el botón está en la escena y tiene el nombre correcto.");
-        }
+    }
+
+    private void Update()
+    {
+        CheckGameOver();
+        //replayButton.onClick.AddListener(EndGame);
     }
 
 
@@ -87,7 +93,6 @@ public class GameManager : MonoBehaviour
 
     public void LoadMenu()
     {
-        healthBar.gameObject.SetActive(false);
         Debug.Log("Cargando el menú...");
         ResetSelections();
         SceneManager.LoadScene("MainMenu");
@@ -111,24 +116,28 @@ public class GameManager : MonoBehaviour
 
     public void CheckGameOver()
     {
-        bool allPlayersDead = true;
-        foreach (var life in lifePlayers.Values)
+        bool allPlayersDead = false;
+        if (numberOfPlayers == 1)
         {
-            if (life > 0)
-            {
-                allPlayersDead = false;
-                break;
-            }
+            lifePlayers[2] = 0;
         }
 
+
+        if (lifePlayers[1] == 0 && lifePlayers[2] == 0)
+        {
+            allPlayersDead = true;
+        }
+        
         if (allPlayersDead)
         {
             Debug.Log("Todos los jugadores han muerto. Fin del juego.");
-            EndGame();
+            SceneManager.LoadScene("GameOver");
+            //EndGame();
+            
         }
     }
 
-    private void EndGame()
+    public void EndGame()
     {
         endGame = true;
         isPlaying = false;
@@ -164,6 +173,15 @@ public class GameManager : MonoBehaviour
         numberOfPlayers = players;
         Debug.Log($"Número de jugadores seleccionado: {players}");
     }
+
+    public Dictionary<int, int> GetPoints()
+    { return pointsPlayers; }
+
+    public Dictionary<int, int> GetLife()
+    { return lifePlayers; }
+
+    public int GetNumberPlayers()
+    { return numberOfPlayers; }
 
     private void ResetSelections()
     {
@@ -208,20 +226,15 @@ public class GameManager : MonoBehaviour
             {
                 lifePlayers[player] = 0; // Asegurarse de que la vida no sea negativa
             }
-            if (healthBar != null)
-            {
-                healthBar.fillAmount = lifePlayers[player]/maxLife;
-            }
+            
             Debug.Log($"Jugador {player} recibió {hurt} de daño por {reason}. Vida restante: {lifePlayers[player]}");
-
+                        
             if (lifePlayers[player] == 0)
             {
                 NotifyPlayerDeath(player);
             }
         }
     }
-
-
 
     public void AddPoints(int player, string objective)
     {
@@ -251,18 +264,6 @@ public class GameManager : MonoBehaviour
         {
             pointsPlayers[player] += points;
             Debug.Log($"Jugador {player} ganó {points} puntos por destruir {objective}. Puntos totales: {pointsPlayers[player]}");
-        }
-
-        if (scoreText != null)
-        {
-            if (numberOfPlayers == 1)
-            {
-                scoreText.text = $"Jugador 1: {pointsPlayers[1]}";
-            }
-            else if (numberOfPlayers == 2)
-            {
-                scoreText.text = $"Jugador 1: {pointsPlayers[1]} | Jugador 2: {pointsPlayers[2]}";
-            }
         }
     }
 
