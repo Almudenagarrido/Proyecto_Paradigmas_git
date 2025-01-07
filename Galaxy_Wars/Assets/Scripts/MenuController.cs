@@ -20,14 +20,14 @@ public class MenuController : MonoBehaviour
     private void InitializeDropdowns()
     {
         // Si el GameManager tiene valores previos, configúralos en los dropdowns
-        if (GameManager.Instance.selectedLevel.HasValue)
+        if (GameManager.Instance.selectedLevel != 0)
         {
-            levelDropdown.value = GameManager.Instance.selectedLevel.Value;
+            levelDropdown.value = GameManager.Instance.selectedLevel;
         }
 
-        if (GameManager.Instance.numberOfPlayers.HasValue)
+        if (GameManager.Instance.numberOfPlayers != 0)
         {
-            playersDropdown.value = GameManager.Instance.numberOfPlayers.Value;
+            playersDropdown.value = GameManager.Instance.numberOfPlayers;
         }
     }
 
@@ -62,7 +62,7 @@ public class MenuController : MonoBehaviour
     public void OnPlayButtonPressed()
     {
         // Validar que tanto nivel como número de jugadores estén seleccionados
-        if (GameManager.Instance.selectedLevel.HasValue && GameManager.Instance.numberOfPlayers.HasValue)
+        if (GameManager.Instance.selectedLevel != 0 && GameManager.Instance.numberOfPlayers != 0)
         {
             GameManager.Instance.StartGame(); // Llamar al método StartGame del GameManager
         }

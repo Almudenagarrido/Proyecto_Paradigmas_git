@@ -474,53 +474,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 124279107}
   m_CullTransparentMesh: 1
---- !u!1 &164108663
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 164108665}
-  - component: {fileID: 164108664}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &164108664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 164108663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f336abcf37350b4428405acbdf78d66a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isSecondPlayerAI: 0
-  isPlaying: 0
-  endGame: 0
---- !u!4 &164108665
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 164108663}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.13425152, y: 0.12244474, z: 0.04279958}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &170638164
 GameObject:
   m_ObjectHideFlags: 0
@@ -1345,7 +1298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planetPrefab: {fileID: 7658460435618809711, guid: 029a47fb592a2744799a52d2be994a14, type: 3}
-  blackholePrefab: {fileID: 1487438075035709594, guid: 392632c05773c1140b310014c446a522, type: 3}
+  wormholePrefab: {fileID: 8475268161485433873, guid: 94d840f3cbf794645be8eda79a9e3821, type: 3}
   playerPrefab: {fileID: 8605617610894225442, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
 --- !u!4 &568341799
 Transform:
@@ -1372,7 +1325,6 @@ GameObject:
   m_Component:
   - component: {fileID: 751930074}
   - component: {fileID: 751930075}
-  - component: {fileID: 751930076}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1410,24 +1362,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f336abcf37350b4428405acbdf78d66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedLevel: 0
+  numberOfPlayers: 0
   isSecondPlayerAI: 0
   isPlaying: 0
   endGame: 0
---- !u!114 &751930076
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 751930073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5663628e230202141a8cf3798245d280, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  planetPrefab: {fileID: 0}
-  blackholePrefab: {fileID: 0}
-  playerPrefab: {fileID: 0}
 --- !u!1 &760912267
 GameObject:
   m_ObjectHideFlags: 0
@@ -2429,7 +2368,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1406593371}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.7695557
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2738,9 +2677,11 @@ MonoBehaviour:
   playerAISprite: {fileID: 21300000, guid: 9c04eadbfcb56b64db8e598735831152, type: 3}
   meteoriteSprite: {fileID: 21300000, guid: 5d679c6bd1eca2f44bce7db9bf9f7414, type: 3}
   enemyShipSprite: {fileID: 21300000, guid: 0b1e8d300e2ddb842a5622b409acbec9, type: 3}
-  bulletSprite: {fileID: 21300000, guid: 3aef1ac3543bee9448c0ecd0e0dd1869, type: 3}
   blackholeSprite1: {fileID: 21300000, guid: a18953e053ebf5345860308bb1658b3b, type: 3}
   blackholeSprite2: {fileID: 21300000, guid: 2cd4c925e1b535346ab52ccda0124f34, type: 3}
+  whiteSmokeSprite: {fileID: 21300000, guid: 96bb23abd90054c4688efedb7030677c, type: 3}
+  yellowSmokeSprite: {fileID: 0}
+  redSmokeSprite: {fileID: 21300000, guid: cc31da090e966cd4cb51f6f1474a71fe, type: 3}
 --- !u!1 &1394563541
 GameObject:
   m_ObjectHideFlags: 0
@@ -2974,7 +2915,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 164108664}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1
@@ -3038,7 +2979,7 @@ GameObject:
   - component: {fileID: 1446814904}
   m_Layer: 5
   m_Name: PlayButton
-  m_TagString: Untagged
+  m_TagString: PlayButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3107,7 +3048,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 164108664}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: StartGame
         m_Mode: 1
@@ -3486,7 +3427,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 124279108}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.85072446
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4719,4 +4660,3 @@ SceneRoots:
   - {fileID: 24960483}
   - {fileID: 1627303691}
   - {fileID: 260890817}
-  - {fileID: 164108665}

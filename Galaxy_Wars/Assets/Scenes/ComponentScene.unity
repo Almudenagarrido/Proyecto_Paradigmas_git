@@ -122,7 +122,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &5323079
+--- !u!1001 &13032171
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -144,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5383011102486544780, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
       propertyPath: maxSpeed
-      value: 4
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5383011102486544780, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
       propertyPath: bulletSpeed
@@ -161,11 +161,27 @@ PrefabInstance:
     - target: {fileID: 5383011102486544780, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
       propertyPath: shootingPoint
       value: 
-      objectReference: {fileID: 34550383}
+      objectReference: {fileID: 1398501412}
     - target: {fileID: 5383011102486544780, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
       propertyPath: timeBetweenBullets
-      value: 0.1
+      value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 5383011102486544780, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
+      propertyPath: smokeSprites.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5383011102486544780, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
+      propertyPath: smokeSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 96bb23abd90054c4688efedb7030677c, type: 3}
+    - target: {fileID: 5383011102486544780, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
+      propertyPath: smokeSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: a1736d6c2f7218647a0469dba387d7b2, type: 3}
+    - target: {fileID: 5383011102486544780, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
+      propertyPath: smokeSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: cc31da090e966cd4cb51f6f1474a71fe, type: 3}
     - target: {fileID: 8391715398261203473, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.7032935
@@ -180,11 +196,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8391715398261203473, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.1662
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 8391715398261203473, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.125
+      value: -1.67
       objectReference: {fileID: 0}
     - target: {fileID: 8391715398261203473, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -227,11 +243,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
---- !u!4 &34550383 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8391715398261203473, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
-  m_PrefabInstance: {fileID: 5323079}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,7 +350,7 @@ GameObject:
   - component: {fileID: 622755811}
   m_Layer: 0
   m_Name: PlanetBounce
-  m_TagString: Untagged
+  m_TagString: Planet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -352,7 +363,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 622755810}
-  m_BodyType: 0
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -524,9 +535,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 776567136}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92a7a6a6476f74b428f42179bd8651dc, type: 3}
+  m_Script: {fileID: 11500000, guid: ca94be7cc7e0f174895ef92fc784e1ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  exitWormhole: {fileID: 0}
+  tiempoEspera: 2
+  wormholeNumber: 0
 --- !u!212 &776567138
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -643,7 +657,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   exitWormhole: {fileID: 1671654876}
   tiempoEspera: 2
-  blackholeNumber: 2
+  wormholeNumber: 0
 --- !u!1 &975267828
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,6 +742,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1398501412 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8391715398261203473, guid: 5f99f83fe78ab734fa8caa2c123c6bbc, type: 3}
+  m_PrefabInstance: {fileID: 13032171}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1499579593
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,7 +763,7 @@ GameObject:
   - component: {fileID: 1499579598}
   m_Layer: 0
   m_Name: PlanetGravity
-  m_TagString: Untagged
+  m_TagString: Planet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -916,7 +935,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1499579593}
-  m_BodyType: 0
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -950,7 +969,7 @@ GameObject:
   - component: {fileID: 1589097473}
   m_Layer: 0
   m_Name: PlanetDeath
-  m_TagString: Untagged
+  m_TagString: Planet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1052,7 +1071,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1589097469}
-  m_BodyType: 0
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -1135,9 +1154,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1671654873}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92a7a6a6476f74b428f42179bd8651dc, type: 3}
+  m_Script: {fileID: 11500000, guid: ca94be7cc7e0f174895ef92fc784e1ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  exitWormhole: {fileID: 0}
+  tiempoEspera: 2
+  wormholeNumber: 0
 --- !u!212 &1671654875
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1254,7 +1276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   exitWormhole: {fileID: 776567139}
   tiempoEspera: 2
-  blackholeNumber: 1
+  wormholeNumber: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1263,7 +1285,7 @@ SceneRoots:
   - {fileID: 975267830}
   - {fileID: 622755815}
   - {fileID: 1499579597}
-  - {fileID: 5323079}
+  - {fileID: 13032171}
   - {fileID: 1589097472}
   - {fileID: 1671654876}
   - {fileID: 776567139}

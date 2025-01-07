@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SpriteManager : MonoBehaviour
@@ -20,10 +21,12 @@ public class SpriteManager : MonoBehaviour
 
     public Sprite enemyShipSprite;
 
-    public Sprite bulletSprite;
-
     public Sprite blackholeSprite1;
     public Sprite blackholeSprite2;
+
+    public Sprite whiteSmokeSprite;
+    public Sprite yellowSmokeSprite;
+    public Sprite redSmokeSprite;
 
     private void Awake()
     {
@@ -84,6 +87,16 @@ public class SpriteManager : MonoBehaviour
         }
     }
 
+    public Sprite[] GetSmokes()
+    {
+        return new Sprite[]
+        {
+            whiteSmokeSprite,
+            yellowSmokeSprite,
+            redSmokeSprite
+        };
+    }
+
     public Sprite GetPlayerSprite(int playerNumber)
     {
         switch (playerNumber)
@@ -99,15 +112,12 @@ public class SpriteManager : MonoBehaviour
                 return null;
         }
     }
-
-    public Sprite GetBulletSprite()
-    {
-        return bulletSprite;
-    }
+    
     public Sprite GetEnemySprite()
     {
         return enemyShipSprite;
     }
+    
     public Sprite GetMeteoriteSprite()
     {
         return meteoriteSprite;

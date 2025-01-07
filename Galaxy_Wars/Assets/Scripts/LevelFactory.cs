@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelFactory : MonoBehaviour
 {
     public GameObject planetPrefab;
-    public GameObject blackholePrefab;
+    public GameObject wormholePrefab;
     public GameObject playerPrefab;
     private GameObject levelRoot;
 
@@ -20,7 +21,7 @@ public class LevelFactory : MonoBehaviour
         // Crear elementos del nivel
         CreatePlanets(level);
         CreatePlayers(players);
-        CreateBlackholes(level);
+        CreateWormholes(level);
 
         Debug.Log($"Nivel {level} creado con {players} jugadores.");
     }
@@ -51,6 +52,8 @@ public class LevelFactory : MonoBehaviour
         Sprite planetSprite = SpriteManager.Instance.GetPlanetSprite(type);
         planetComponent.planetSprite = planetSprite;
         planet.GetComponent<SpriteRenderer>().sprite = planetSprite;
+        Sprite[] noiseSprites = SpriteManager.Instance.GetNoiseSprites(type);
+        planetComponent.noiseSprites = noiseSprites;
 
         planet.transform.localScale = new Vector3(scale, scale, 1.0f);
 
@@ -61,52 +64,73 @@ public class LevelFactory : MonoBehaviour
         }
     }
 
-    private void CreateBlackholes(int level)
+    private void CreateWormholes(int level)
     {
         if (level == 3)
         {
-            AddBlackHole(new Vector2(-3.4f, 3.6f), 1, 1.2f);
-            AddBlackHole(new Vector2(8.8f, -2.3f), 2, 1.2f);
+            AddWormhole(new Vector2(-3.4f, 3.6f), 1, 1.2f);
+            AddWormhole(new Vector2(8.8f, -2.3f), 2, 1.2f);
         }
     }
 
-    private void AddBlackHole(Vector2 position, int blackholeNumber, float scale)
+    private void AddWormhole(Vector2 position, int wormholeNumber, float scale)
     {
-        GameObject blackhole = Instantiate(blackholePrefab, position, Quaternion.identity, levelRoot.transform);
+        GameObject wormhole = Instantiate(wormholePrefab, position, Quaternion.identity, levelRoot.transform);
 
-        WormholeController blackholeComponent = blackhole.GetComponent<WormholeController>();
-        blackholeComponent.blackholeNumber = blackholeNumber;
+        WormholeController wormholeComponent = wormhole.GetComponent<WormholeController>();
+        wormholeComponent.wormholeNumber = wormholeNumber;
 
-        Sprite blackholeSprite = SpriteManager.Instance.GetBlackholeSprite(blackholeNumber);
-        blackhole.GetComponent<SpriteRenderer>().sprite = blackholeSprite;
+        Sprite blackholeSprite = SpriteManager.Instance.GetBlackholeSprite(wormholeNumber);
+        wormhole.GetComponent<SpriteRenderer>().sprite = blackholeSprite;
 
-        blackhole.transform.localScale = new Vector3(scale, scale, 1.0f);
+        wormhole.transform.localScale = new Vector3(scale, scale, 1.0f);
 
-        CircleCollider2D collider = blackhole.GetComponent<CircleCollider2D>();
+        CircleCollider2D collider = wormhole.GetComponent<CircleCollider2D>();
         if (collider != null)
         {
-            collider.radius = blackhole.GetComponent<SpriteRenderer>().bounds.extents.x / blackhole.transform.localScale.x;
+            collider.radius = wormhole.GetComponent<SpriteRenderer>().bounds.extents.x / wormhole.transform.localScale.x;
         }
     }
+
     private void CreatePlayers(int players)
     {
         for (int i = 0; i < players; i++)
         {
-            GameObject player = Instantiate(playerPrefab, new Vector2(-5 + i * 2, 0), Quaternion.identity, levelRoot.transform);
-            Player playerComponent = player.GetComponent<Player>();
+            Vector2 position = Vector2.zero;
 
+            // Asignar posiciones dependiendo del número de jugadores
+            if (players == 1)
+            {
+                position = new Vector2(0, 0); // Un jugador empieza en el centro
+            }
+            else if (players == 2)
+            {
+                if (i == 0)
+                    position = new Vector2(2.5f, 0); // Jugador 1 a la izquierda
+                else if (i == 1)
+                    position = new Vector2(-2.5f, 0); // Jugador 2 a la derecha
+            }
+
+            // Crear el jugador en la posición asignada
+            GameObject player = Instantiate(playerPrefab, position, Quaternion.identity, levelRoot.transform);
+            Player playerComponent = player.GetComponent<Player>();
+            player.GetComponent<Player>().smokeSprites = SpriteManager.Instance.GetSmokes();
+            player.transform.localScale = new Vector3(0.8f, 0.8f, 1.0f);
+
+            // Configurar si el jugador es IA o humano
             if (i == 1 && GameManager.Instance.isSecondPlayerAI)
             {
-                playerComponent.playerNumber = 3;
+                playerComponent.playerNumber = 3; // IA es el jugador 3
                 player.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.GetPlayerSprite(3);
             }
             else
             {
-                playerComponent.playerNumber = i + 1;
+                playerComponent.playerNumber = i + 1; // Jugador humano
                 player.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.GetPlayerSprite(i + 1);
             }
 
             Debug.Log($"Jugador {playerComponent.playerNumber} creado en posición {player.transform.position} - {(i == 1 && GameManager.Instance.isSecondPlayerAI ? "IA" : "Humano")}");
         }
     }
+
 }

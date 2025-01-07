@@ -7,6 +7,9 @@ TagManager:
   - Wormhole
   - Planet
   - Meteorite
+  - BulletPlayer
+  - EnemyBullet
+  - PlayButton
   layers:
   - Default
   - TransparentFX

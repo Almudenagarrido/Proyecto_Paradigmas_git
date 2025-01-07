@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 5663650684280724844}
   - component: {fileID: 4114326884476714855}
   - component: {fileID: 3028377763405601265}
-  - component: {fileID: -3105118981895221134}
   m_Layer: 0
-  m_Name: blackholePrefab
+  m_Name: wormholePrefab
   m_TagString: Wormhole
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,11 +43,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8475268161485433873}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92a7a6a6476f74b428f42179bd8651dc, type: 3}
+  m_Script: {fileID: 11500000, guid: ca94be7cc7e0f174895ef92fc784e1ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackholeNumber: 1
   exitWormhole: {fileID: 0}
+  tiempoEspera: 2
+  wormholeNumber: 0
 --- !u!212 &4114326884476714855
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -136,30 +136,3 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!50 &-3105118981895221134
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8475268161485433873}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0

@@ -2,17 +2,18 @@ using UnityEngine;
 
 public class Meteorite : MonoBehaviour
 {
-    public float minVelocidad;  // min velocidad del meteorito
-    public float maxVelocidad;  // max velocidad del meteorito
-    private Vector2 direccion;    // Dirección en la que se mueve el meteorito
-
-    private Camera camara;        // Cámara principal
-
+    public float minVelocidad;
+    public float maxVelocidad;
+    private Vector2 direccion;
     private float velocidad;
+    private Camera camara;
+
+    private int hits = 0;
+    public int puntosPorDestruir = 5;
 
     void Start()
     {
-        camara = Camera.main;  // Obtener la cámara principal
+        camara = Camera.main;
 
         // Determinar desde qué borde aparece el meteorito
         int borde = Random.Range(0, 4);  // Elige un borde aleatorio (arriba, abajo, izquierda, derecha)
@@ -83,6 +84,26 @@ public class Meteorite : MonoBehaviour
         Vector3 posicionEnPantalla = camara.WorldToViewportPoint(transform.position);
         return posicionEnPantalla.x > -0.1f && posicionEnPantalla.x < 1.1f &&
                posicionEnPantalla.y > -0.1f && posicionEnPantalla.y < 1.1f;
+    }
+    
+    // Comprobar si el meteorito recibe disparos del jugador
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("BulletPlayer"))
+        {
+            hits++;
+
+            if (hits >= 2)
+            {
+                Player player = collision.gameObject.GetComponentInParent<Player>();
+                if (player != null)
+                {
+                    GameManager.Instance.AddPoints(player.playerNumber, "Meteorite");
+                }
+
+                Destroy(gameObject);
+            }
+        }
     }
 }
 

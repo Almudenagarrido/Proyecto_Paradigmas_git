@@ -10,17 +10,17 @@ public class WormholeController : MonoBehaviour
     private bool puedeTeletransportar = true;
 
     private float rotationSpeed = 100f;
-    public int blackholeNumber;
+    public int wormholeNumber;
 
 
     void Update()
     {
         float rotation = 0f;
-        if (blackholeNumber == 1)
+        if (wormholeNumber == 1)
         {
             rotation = -rotationSpeed * Time.deltaTime;
         }
-        else if (blackholeNumber == 2)
+        else if (wormholeNumber == 2)
         {
             rotation = rotationSpeed * Time.deltaTime;
         }
@@ -30,7 +30,7 @@ public class WormholeController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && puedeTeletransportar)
+        if (collision.CompareTag("Player") || collision.CompareTag("BulletPlayer") && puedeTeletransportar)
         {
             exitWormhole.GetComponent<Collider2D>().enabled = false;
             collision.transform.position = exitWormhole.position;
