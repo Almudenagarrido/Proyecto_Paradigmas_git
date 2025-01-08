@@ -39,3 +39,7 @@ public class PlayerBullet : MonoBehaviour
                posicionEnPantalla.y > -0.1f && posicionEnPantalla.y < 1.1f;
     }
 }
+
+
+
+// Mira a ver si te funcion ahora
