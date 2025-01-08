@@ -10,6 +10,12 @@ public class Enemy : MonoBehaviour
     private float velocidad;
     private Camera camara;
 
+    public GameObject bulletPrefab;
+    public Transform shootingPoint;
+    public float bulletSpeed = 7f;
+    public float timeBetweenBullets = 0.15f;
+    private float lastShot = 0f;
+
     void Start()
     {
         camara = Camera.main;
@@ -25,6 +31,10 @@ public class Enemy : MonoBehaviour
         direccion = ObtenerDireccionMovimiento(borde);
 
         RotarHaciaDireccion();
+
+        // Disparar
+        InvokeRepeating("Shoot", 1f, timeBetweenBullets);
+
     }
 
     void Update()
@@ -44,10 +54,11 @@ public class Enemy : MonoBehaviour
     void RotarHaciaDireccion()
     {
         // Calcula el ángulo usando la dirección del movimiento
-        float angulo = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg;
+        //float angulo = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg;
 
         // Aplica la rotación al transform (el sprite apunta hacia la derecha de forma predeterminada)
-        transform.rotation = Quaternion.Euler(0, 0, angulo);
+        //transform.rotation = Quaternion.Euler(0, 0, angulo);
+        transform.up = direccion;
     }
 
 
@@ -93,5 +104,23 @@ public class Enemy : MonoBehaviour
         Vector2 direccion = new Vector2(Mathf.Cos(anguloEnRadianes), Mathf.Sin(anguloEnRadianes));
 
         return direccion.normalized;  // Devolver la dirección normalizada
+    }
+
+    void Shoot()
+    {
+        // Instancia la bala en el punto de disparo
+        GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, shootingPoint.rotation);
+
+        // Rotar la bala hacia la dirección del enemigo
+        float angulo = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg;
+        bullet.transform.rotation = Quaternion.Euler(0, 0, angulo);
+
+        // Configurar la velocidad de la bala
+        Rigidbody2D rigidBullet = bullet.GetComponent<Rigidbody2D>();
+        rigidBullet.freezeRotation = true;
+        rigidBullet.velocity = shootingPoint.up * bulletSpeed;
+
+        // Desactivar colisión entre la bala y el enemigo
+        Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
     }
 }

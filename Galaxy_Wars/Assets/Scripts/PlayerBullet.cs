@@ -25,6 +25,11 @@ public class PlayerBullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        //Si colisiona con otro jugador, destruye la bala
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Destroy (gameObject);
+        }
     }
 
     bool EnPantalla()

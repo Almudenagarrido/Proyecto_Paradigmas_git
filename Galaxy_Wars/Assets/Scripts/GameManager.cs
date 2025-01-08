@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     private Button playButton;
     private Button exitButton;
-    private Button backButton;
+    private Button backButton = null;
 
     public int selectedLevel = 0;
     public int numberOfPlayers = 0;
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public Dictionary<int, int> pointsPlayers = new Dictionary<int, int> { { 1, 0 }, { 2, 0 } };
     public List<GameObject> playerLifeBars = new List<GameObject>();
     public List<GameObject> playerFillBars = new List<GameObject>();
-
+    
     private SpriteManager spriteManager;
     private LevelFactory levelFactory;
 
@@ -30,13 +30,7 @@ public class GameManager : MonoBehaviour
     {
         playButton = GameObject.Find("PlayButton").GetComponent<Button>();
         //exitButton = GameObject.Find("ExitButton").GetComponent<Button>();
-        backButton = GameObject.Find("BackButton").GetComponent<Button>();
-
-        // Verificar si el replayButton ha sido asignado correctamente
-        if (backButton != null)
-        {
-            backButton.onClick.AddListener(EndGame);  // Asignamos el método EndGame al botón
-        }
+       
         if (playButton != null)
         {
             playButton.onClick.AddListener(StartGame);
@@ -46,8 +40,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        CheckGameOver();
-        //replayButton.onClick.AddListener(EndGame);
+        if (SceneManager.GetActiveScene().name != "GameOver")
+        {
+            CheckGameOver();
+        }
     }
 
 
@@ -59,12 +55,50 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             InitializeManagers();
             LoadMenu();
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
             Destroy(gameObject);
         }
     }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "GameOver")  // Si la escena cargada es GameOver
+        {
+            AssignBackButton();
+        }
+        if (scene.name == "MainMenu")
+        {
+            AssignPlayExitButtons();
+        }
+    }
+
+    private void AssignBackButton()
+    {
+        backButton = GameObject.Find("BackButton").GetComponent<Button>();
+        Debug.Log(backButton);
+        if (backButton != null)
+        {
+            backButton.onClick.RemoveAllListeners();  // Quitar los que haya y solo usar ese
+            backButton.onClick.AddListener(EndGame);  // Para volver al menú
+            Debug.Log("Botón BackButton asignado.");
+        }
+    }
+
+    private void AssignPlayExitButtons()
+    {
+        playButton = GameObject.Find("PlayButton")?.GetComponent<Button>();
+        exitButton = GameObject.Find("QuitButton")?.GetComponent<Button>();
+        if (playButton != null)
+        {
+            playButton.onClick.RemoveAllListeners();
+            playButton.onClick.AddListener(StartGame);
+            exitButton.onClick.AddListener(QuitGame);
+        }
+    }
+
 
     private void InitializeManagers()
     {
@@ -94,8 +128,8 @@ public class GameManager : MonoBehaviour
     public void LoadMenu()
     {
         Debug.Log("Cargando el menú...");
-        ResetSelections();
         SceneManager.LoadScene("MainMenu");
+        ResetSelections();
     }
 
     public void StartGame()
@@ -132,7 +166,6 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Todos los jugadores han muerto. Fin del juego.");
             SceneManager.LoadScene("GameOver");
-            //EndGame();
             
         }
     }
@@ -189,6 +222,8 @@ public class GameManager : MonoBehaviour
         numberOfPlayers = 0;
         isPlaying = false;
         endGame = false;
+        lifePlayers[1]=100; lifePlayers[2]=100;
+        pointsPlayers[1] = 0; pointsPlayers[2]=0;
         Debug.Log("Selecciones reiniciadas.");
     }
     
