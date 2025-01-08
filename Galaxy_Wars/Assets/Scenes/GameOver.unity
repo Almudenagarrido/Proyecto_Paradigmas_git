@@ -131,28 +131,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 129239809}
-  - component: {fileID: 129239808}
+  - component: {fileID: 129239810}
   m_Layer: 0
-  m_Name: MeteoriteSpawner
+  m_Name: MenuSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &129239808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 129239807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5e479499e34cb24e978b6cdbde244e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 7195949100673185677, guid: 5027d1a6d92126840aa373658a9edd3c, type: 3}
-  intervaloGeneracion: 1.2
 --- !u!4 &129239809
 Transform:
   m_ObjectHideFlags: 0
@@ -168,6 +154,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &129239810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129239807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e479499e34cb24e978b6cdbde244e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meteoritoSprite: {fileID: 21300000, guid: 5d679c6bd1eca2f44bce7db9bf9f7414, type: 3}
+  navesSprites:
+  - {fileID: 21300000, guid: 0b1e8d300e2ddb842a5622b409acbec9, type: 3}
+  - {fileID: 21300000, guid: c206d2ce32b875f429a6cb3b3aa4e9eb, type: 3}
+  - {fileID: 21300000, guid: ca81fb117b51b134eac7d701caebfcbe, type: 3}
+  - {fileID: 21300000, guid: 94f57d57e78341c428d4d2de9ef9209b, type: 3}
+  - {fileID: 21300000, guid: 9c04eadbfcb56b64db8e598735831152, type: 3}
+  intervaloGeneracion: 0.7
+  escalaMinMaxMeteoritos: {x: 0.7, y: 1}
+  escalaNaves: {x: 0.8, y: 0.8, z: 1}
 --- !u!1 &377696305
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,8 +205,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e479499e34cb24e978b6cdbde244e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 8873356096053770159, guid: 79ce9b6ee369993438fa4f17098c11be, type: 3}
+  meteoritoSprite: {fileID: 0}
+  navesSprites: []
   intervaloGeneracion: 1.5
+  escalaMinMaxMeteoritos: {x: 1, y: 1.4}
+  escalaNaves: {x: 0.3, y: 0.3, z: 1}
 --- !u!4 &377696307
 Transform:
   m_ObjectHideFlags: 0
@@ -563,7 +574,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f336abcf37350b4428405acbdf78d66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backButton: {fileID: 0}
   selectedLevel: 0
   numberOfPlayers: 0
   isSecondPlayerAI: 0

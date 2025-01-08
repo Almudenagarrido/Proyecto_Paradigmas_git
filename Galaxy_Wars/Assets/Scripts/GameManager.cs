@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
@@ -9,7 +10,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     private Button playButton;
-    private Button exitButton;
+    private Button quitButton;
     private Button backButton = null;
 
     public int selectedLevel = 0;
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
     public bool isSecondPlayerAI = false;
     public bool isPlaying = false;
     public bool endGame = false;
+    private bool gameOverTriggered = false;
 
     public Dictionary<int, int> lifePlayers = new Dictionary<int, int> { { 1, 100 }, { 2, 100 } };
     public Dictionary<int, int> pointsPlayers = new Dictionary<int, int> { { 1, 0 }, { 2, 0 } };
@@ -29,12 +31,16 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         playButton = GameObject.Find("PlayButton").GetComponent<Button>();
-        //exitButton = GameObject.Find("ExitButton").GetComponent<Button>();
+        quitButton = GameObject.Find("QuitButton").GetComponent<Button>();
        
         if (playButton != null)
         {
             playButton.onClick.AddListener(StartGame);
-            //exitButton.onClick.AddListener(EndGame);
+        }
+
+        if (playButton != null && quitButton != null)
+        {
+            quitButton.onClick.AddListener(QuitGame);
         }
     }
 
@@ -45,7 +51,6 @@ public class GameManager : MonoBehaviour
             CheckGameOver();
         }
     }
-
 
     private void Awake()
     {
@@ -90,15 +95,14 @@ public class GameManager : MonoBehaviour
     private void AssignPlayExitButtons()
     {
         playButton = GameObject.Find("PlayButton")?.GetComponent<Button>();
-        exitButton = GameObject.Find("QuitButton")?.GetComponent<Button>();
+        quitButton = GameObject.Find("QuitButton")?.GetComponent<Button>();
         if (playButton != null)
         {
             playButton.onClick.RemoveAllListeners();
             playButton.onClick.AddListener(StartGame);
-            exitButton.onClick.AddListener(QuitGame);
+            quitButton.onClick.AddListener(QuitGame);
         }
     }
-
 
     private void InitializeManagers()
     {
@@ -128,8 +132,8 @@ public class GameManager : MonoBehaviour
     public void LoadMenu()
     {
         Debug.Log("Cargando el menú...");
-        SceneManager.LoadScene("MainMenu");
         ResetSelections();
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void StartGame()
@@ -150,30 +154,40 @@ public class GameManager : MonoBehaviour
 
     public void CheckGameOver()
     {
+        if (gameOverTriggered) return;
+
         bool allPlayersDead = false;
+
         if (numberOfPlayers == 1)
         {
-            lifePlayers[2] = 0;
+            lifePlayers[2] = 0; // Si hay un jugador, establece la vida del segundo en 0.
         }
-
 
         if (lifePlayers[1] == 0 && lifePlayers[2] == 0)
         {
             allPlayersDead = true;
         }
-        
+
         if (allPlayersDead)
         {
             Debug.Log("Todos los jugadores han muerto. Fin del juego.");
-            SceneManager.LoadScene("GameOver");
-            
+            gameOverTriggered = true;
+            StartCoroutine(WaitChargeGameOver());
+
         }
     }
-
-    public void EndGame()
+    
+    private IEnumerator WaitChargeGameOver()
+    {
+        yield return new WaitForSeconds(2.5f);
+        SceneManager.LoadScene("GameOver");
+    }
+    
+    private void EndGame()
     {
         endGame = true;
         isPlaying = false;
+        gameOverTriggered = false;
         LoadMenu();
     }
 
@@ -235,7 +249,13 @@ public class GameManager : MonoBehaviour
         switch (reason)
         {
             case "EnemyBullet":
+                hurt = 3;
+                break;
+            case "EnemyShoot":
                 hurt = 10;
+                break;
+            case "EnemyNoob":
+                hurt = 5;
                 break;
             case "PlanetBounce":
                 hurt = 2;
@@ -278,11 +298,11 @@ public class GameManager : MonoBehaviour
         // Determinar los puntos según el objetivo destruido
         switch (objective)
         {
-            case "NaveEnemigaTipo1":
-                points = 50;
-                break;
-            case "NaveEnemigaTipo2":
+            case "EnemyShoot":
                 points = 100;
+                break;
+            case "EnemyNoob":
+                points = 30;
                 break;
             case "Meteorite":
                 points = 10;

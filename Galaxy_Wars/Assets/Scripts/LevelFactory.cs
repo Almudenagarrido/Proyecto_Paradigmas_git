@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LevelFactory : MonoBehaviour
 {
@@ -25,6 +23,7 @@ public class LevelFactory : MonoBehaviour
         CreatePlanets(level);
         CreatePlayers(players);
         CreateWormholes(level);
+        SetupSpawner(level);
 
         Debug.Log($"Nivel {level} creado con {players} jugadores.");
     }
@@ -124,7 +123,7 @@ public class LevelFactory : MonoBehaviour
 
             // Crear el jugador en la posición asignada
             GameObject player = Instantiate(playerPrefab, position, Quaternion.identity, levelRoot.transform);
-            Player playerComponent = player.GetComponent<Player>();      
+            Player playerComponent = player.GetComponent<Player>();
             player.GetComponent<Player>().smokeSprites = SpriteManager.Instance.GetSmokes();
             player.transform.localScale = new Vector3(0.8f, 0.8f, 1.0f);
             playerComponent.shootingPoint = playerComponent.transform;
@@ -143,7 +142,37 @@ public class LevelFactory : MonoBehaviour
                 player.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.GetPlayerSprite(i + 1);
             }
 
-            Debug.Log($"Jugador {playerComponent.playerNumber} creado en posición {player.transform.position} - {(i == 1 && GameManager.Instance.isSecondPlayerAI ? "IA" : "Humano")}");
+            Debug.Log($"Jugador {playerComponent.playerNumber} creado en posición {player.transform.position} - {(i == 1 && GameManager.Instance.isSecondPlayerAI ? "IA" : "Humano")}.");
+        }
+    }
+
+    private void SetupSpawner(int level)
+    {
+        GameObject spawnerObject = GameObject.Find("LevelSpawner");
+        if (spawnerObject == null)
+        {
+            Debug.LogError("No se encontró un GameObject llamado 'LevelSpawner' en la escena.");
+            return;
+        }
+
+        LevelSpawner levelSpawner = spawnerObject.GetComponent<LevelSpawner>();
+        if (levelSpawner == null)
+        {
+            Debug.LogError("El GameObject 'LevelSpawner' no tiene un componente LevelSpawner.");
+            return;
+        }
+
+        if (level == 1)
+        {
+            levelSpawner.ConfigureSpawner(1.0f, 0f, 0f, true, false, false);
+        }
+        else if (level == 2)
+        {
+            levelSpawner.ConfigureSpawner(0.9f, 2.0f, 0f, true, true, false);
+        }
+        else if (level == 3)
+        {
+            levelSpawner.ConfigureSpawner(0.8f, 1.5f, 3.0f, true, true, true);
         }
     }
 }

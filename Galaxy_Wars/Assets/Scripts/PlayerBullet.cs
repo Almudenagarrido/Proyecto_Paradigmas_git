@@ -20,15 +20,14 @@ public class PlayerBullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Si colisiona con un planeta, destruye la bala
         if (collision.gameObject.CompareTag("Planet"))
         {
             Destroy(gameObject);
         }
-        //Si colisiona con otro jugador, destruye la bala
+
         if (collision.gameObject.CompareTag("Player"))
         {
-            Destroy (gameObject);
+            Destroy(gameObject);
         }
     }
 
@@ -40,6 +39,3 @@ public class PlayerBullet : MonoBehaviour
     }
 }
 
-
-
-// Mira a ver si te funcion ahora

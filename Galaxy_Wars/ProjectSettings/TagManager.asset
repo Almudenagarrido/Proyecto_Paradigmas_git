@@ -10,9 +10,10 @@ TagManager:
   - BulletPlayer
   - EnemyBullet
   - PlayButton
-  - Enemy
   - QuitButton
   - BackButton
+  - EnemyNoob
+  - EnemyShoot
   layers:
   - Default
   - TransparentFX

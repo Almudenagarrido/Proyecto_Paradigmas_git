@@ -122,6 +122,56 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &5990809
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5990811}
+  - component: {fileID: 5990810}
+  m_Layer: 0
+  m_Name: LevelSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &5990810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5990809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbe7f003be27e8d43bfbeba1121208d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meteoritePrefab: {fileID: 7195949100673185677, guid: 5027d1a6d92126840aa373658a9edd3c, type: 3}
+  enemyNoobPrefab: {fileID: 6834050884413414321, guid: 46d918bece5d01744ab3fb5a19db21fd, type: 3}
+  enemyShootPrefab: {fileID: 6834050884413414321, guid: 79ce9b6ee369993438fa4f17098c11be, type: 3}
+  meteoriteFrequency: 1
+  noobEnemyFrequency: 3
+  shootEnemyFrequency: 5
+--- !u!4 &5990811
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5990809}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.4007635, y: 0.02760656, z: 0.099426605}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &98225630
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +206,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -343.12, y: 198.56}
+  m_AnchoredPosition: {x: -304, y: 163}
   m_SizeDelta: {x: 175.5, y: 19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &98225632
@@ -231,7 +281,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -343.1234, y: 198.55734}
+  m_AnchoredPosition: {x: -304.00342, y: 162.99731}
   m_SizeDelta: {x: 179.75, y: 22.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &149812941
@@ -320,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -340,7 +390,7 @@ Canvas:
   m_GameObject: {fileID: 216855784}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -593,8 +643,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 198.56}
-  m_SizeDelta: {x: 465.2386, y: 47.4819}
+  m_AnchoredPosition: {x: 0.0000085831, y: 159.64}
+  m_SizeDelta: {x: 425.1123, y: 43.3866}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &867583260
 GameObject:
@@ -630,7 +680,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 343.12, y: 198.56}
+  m_AnchoredPosition: {x: 304, y: 164}
   m_SizeDelta: {x: 175.5, y: 19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &867583262
@@ -797,7 +847,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 343.12335, y: 198.55734}
+  m_AnchoredPosition: {x: 304.0033, y: 163.99731}
   m_SizeDelta: {x: 179.75, y: 22.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1726129717
@@ -963,3 +1013,4 @@ SceneRoots:
   - {fileID: 216855788}
   - {fileID: 2103691020}
   - {fileID: 1959801589}
+  - {fileID: 5990811}
