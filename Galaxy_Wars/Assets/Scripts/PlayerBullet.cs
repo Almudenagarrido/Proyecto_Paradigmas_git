@@ -29,6 +29,11 @@ public class PlayerBullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        if (collision.gameObject.CompareTag("EnemyNoob"))
+        {
+            Destroy(gameObject);
+        }
     }
 
     bool EnPantalla()

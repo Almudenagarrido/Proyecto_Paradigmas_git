@@ -42,7 +42,7 @@ public class ScoreManager : MonoBehaviour
 
     void UpdatePoints()
     {
-        int numPlayers = gameManager.GetNumberPlayers();
+        int numPlayers = gameManager.numberOfPlayers;
         if (numPlayers == 1)
         {
             int player1Points = gameManager.GetPoints()[1];
@@ -61,7 +61,7 @@ public class ScoreManager : MonoBehaviour
 
     void UpdateLife()
     {
-        int numPlayers = gameManager.GetNumberPlayers();
+        int numPlayers = gameManager.numberOfPlayers;
 
         if (numPlayers == 1)
         {

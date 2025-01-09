@@ -168,11 +168,11 @@ public class LevelFactory : MonoBehaviour
         }
         else if (level == 2)
         {
-            levelSpawner.ConfigureSpawner(0.9f, 2.0f, 0f, true, true, false);
+            levelSpawner.ConfigureSpawner(0.9f, 3.0f, 0f, true, true, false);
         }
         else if (level == 3)
         {
-            levelSpawner.ConfigureSpawner(0.8f, 1.5f, 3.0f, true, true, true);
+            levelSpawner.ConfigureSpawner(0.8f, 2f, 3.5f, true, true, true);
         }
     }
 }

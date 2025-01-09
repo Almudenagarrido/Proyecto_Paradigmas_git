@@ -8,14 +8,18 @@ public class Meteorite : MonoBehaviour
     private Vector2 direccion;
     private float velocidad;
     private Camera camara;
-    private int hits = 0;
 
     public Sprite explosionSprite;
     private float minScale = 0.6f;
     private float maxScale = 1.0f;
 
+    private GameManager gameManager;
+
     void Start()
     {
+        GameObject managerObj = GameObject.Find("GameManager");
+        gameManager = managerObj.GetComponent<GameManager>();
+
         camara = Camera.main;
 
         float randomScale = Random.Range(minScale, maxScale);
@@ -122,15 +126,19 @@ public class Meteorite : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("BulletPlayer"))
-        {
-            hits++;
-            if (hits >= 2)
+        {              
+            if (gameManager.numberOfPlayers == 1)
             {
                 Explode();
+                gameManager.AddPoints(1, "Meteorite");
             }
         }
         else if (collision.gameObject.CompareTag("Player"))
         {
+            if (gameManager.numberOfPlayers == 1)
+            {
+                gameManager.TakeLife(1, "Meteorite");
+            }
             Explode();
         }
     }

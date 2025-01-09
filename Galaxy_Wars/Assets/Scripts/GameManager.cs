@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private Button playButton;
     private Button quitButton;
     private Button backButton = null;
+    private TextMeshProUGUI score;
 
     public int selectedLevel = 0;
     public int numberOfPlayers = 0;
@@ -73,6 +74,7 @@ public class GameManager : MonoBehaviour
         if (scene.name == "GameOver")  // Si la escena cargada es GameOver
         {
             AssignBackButton();
+            UpdateGameOverScore();
         }
         if (scene.name == "MainMenu")
         {
@@ -103,6 +105,25 @@ public class GameManager : MonoBehaviour
             quitButton.onClick.AddListener(QuitGame);
         }
     }
+
+    private void UpdateGameOverScore()
+    {
+        if (score == null)
+        {
+            score = GameObject.Find("ScoreText")?.GetComponent<TextMeshProUGUI>();
+        }
+
+        // Actualiza el texto de puntuación
+        if (numberOfPlayers == 1)
+        {
+            score.text = $"Player 1: {pointsPlayers[1]}";
+        }
+        else
+        {
+            score.text = $"Player 1: {pointsPlayers[1]}\nPlayer 2: {pointsPlayers[2]}";
+        }
+    }
+
 
     private void InitializeManagers()
     {
@@ -181,6 +202,8 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2.5f);
         SceneManager.LoadScene("GameOver");
+        
+
     }
     
     private void EndGame()
@@ -226,9 +249,6 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<int, int> GetLife()
     { return lifePlayers; }
-
-    public int GetNumberPlayers()
-    { return numberOfPlayers; }
 
     private void ResetSelections()
     {
@@ -307,9 +327,7 @@ public class GameManager : MonoBehaviour
             case "Meteorite":
                 points = 10;
                 break;
-            case "EnemyBullet":
-                points = 1;
-                break;
+      
             default:
                 Debug.LogWarning("Objetivo desconocido: " + objective);
                 break;
