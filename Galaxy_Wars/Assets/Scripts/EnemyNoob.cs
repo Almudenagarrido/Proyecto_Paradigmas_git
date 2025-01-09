@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class EnemyNoob : MonoBehaviour
 {
-    public float minVelocidad = 2f;
-    public float maxVelocidad = 5f;
+    public float minVelocidad = 3f;
+    public float maxVelocidad = 4f;
     private Vector2 direccion;
     private float velocidad;
     private Camera camara;
+    private Transform jugadorObjetivo;
 
     void Start()
     {
@@ -17,16 +18,29 @@ public class EnemyNoob : MonoBehaviour
         Vector3 puntoDeSalida = ObtenerPosicionBorde(borde);
         transform.position = puntoDeSalida;
 
-        // Calcular dirección inicial
-        direccion = ObtenerDireccionMovimiento(puntoDeSalida);
-        RotarHaciaDireccion();
-
-        // Calcular velocidad inicial
         velocidad = Random.Range(minVelocidad, maxVelocidad);
+
+        // Seleccionar un jugador aleatoriamente
+        GameObject[] jugadores = GameObject.FindGameObjectsWithTag("Player");
+        if (jugadores.Length > 0)
+        {
+            jugadorObjetivo = jugadores[Random.Range(0, jugadores.Length)].transform;
+        }
+        else
+        {
+            Debug.LogWarning("No se encontraron jugadores con la etiqueta 'Player'.");
+            Destroy(gameObject);
+        }
     }
 
     void Update()
     {
+        if (jugadorObjetivo != null)
+        {
+            direccion = (jugadorObjetivo.position - transform.position).normalized;
+            RotarHaciaDireccion();
+        }
+
         transform.Translate(direccion * velocidad * Time.deltaTime);
 
         if (!EnPantalla())
@@ -54,13 +68,6 @@ public class EnemyNoob : MonoBehaviour
             case 3: return new Vector3(anchoPantalla + bordeExtra, Random.Range(-altoPantalla, altoPantalla), 0); // Derecha
             default: return Vector3.zero;
         }
-    }
-
-    Vector2 ObtenerDireccionMovimiento(Vector3 puntoDeSalida)
-    {
-        Vector2 centroPantalla = Vector2.zero;
-        Vector2 direccionCalculada = (centroPantalla - (Vector2)puntoDeSalida).normalized;
-        return direccionCalculada;
     }
 
     bool EnPantalla()

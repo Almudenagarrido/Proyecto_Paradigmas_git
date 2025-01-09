@@ -4,7 +4,6 @@ public class EnemyShoot : MonoBehaviour
 {
     public float minVelocidad = 2f;
     public float maxVelocidad = 5f;
-    private Vector2 direccion;
     private float velocidad;
     private Camera camara;
 
@@ -12,6 +11,8 @@ public class EnemyShoot : MonoBehaviour
     public Transform shootingPoint;
     public float bulletSpeed = 7f;
     public float timeBetweenBullets = 2f;
+
+    private Transform player;
 
     void Start()
     {
@@ -22,17 +23,21 @@ public class EnemyShoot : MonoBehaviour
         Vector3 puntoDeSalida = ObtenerPosicionBorde(borde);
         transform.position = puntoDeSalida;
 
-        direccion = ObtenerDireccionMovimiento(borde);
-        RotarHaciaDireccion();
+        player = GameObject.FindGameObjectWithTag("Player")?.transform;
 
-        // Iniciar disparos
         InvokeRepeating(nameof(Shoot), 1f, timeBetweenBullets);
     }
 
     void Update()
     {
         velocidad = Random.Range(minVelocidad, maxVelocidad);
-        transform.Translate(direccion * velocidad * Time.deltaTime);
+
+        if (player != null)
+        {
+            Vector2 direccion = ((Vector2)player.position - (Vector2)transform.position).normalized;
+            transform.Translate(direccion * velocidad * Time.deltaTime);
+            RotarHaciaDireccion(direccion);
+        }
 
         if (!EnPantalla())
         {
@@ -40,9 +45,10 @@ public class EnemyShoot : MonoBehaviour
         }
     }
 
-    void RotarHaciaDireccion()
+    void RotarHaciaDireccion(Vector2 direccion)
     {
-        transform.up = direccion;
+        float angle = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90)); // Ajustar rotación hacia la dirección
     }
 
     Vector3 ObtenerPosicionBorde(int borde)
@@ -61,11 +67,6 @@ public class EnemyShoot : MonoBehaviour
         }
     }
 
-    Vector2 ObtenerDireccionMovimiento(int borde)
-    {
-        return (Vector2.zero - (Vector2)transform.position).normalized; // Movimiento hacia el centro
-    }
-
     bool EnPantalla()
     {
         Vector3 posicionEnPantalla = camara.WorldToViewportPoint(transform.position);
@@ -75,10 +76,16 @@ public class EnemyShoot : MonoBehaviour
 
     void Shoot()
     {
+        if (player == null) return;
+
         GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, shootingPoint.rotation);
         Rigidbody2D rigidBullet = bullet.GetComponent<Rigidbody2D>();
-        rigidBullet.velocity = shootingPoint.up * bulletSpeed;
 
+        // Calcular la dirección hacia el jugador
+        Vector2 direccion = ((Vector2)player.position - (Vector2)shootingPoint.position).normalized;
+        rigidBullet.velocity = direccion * bulletSpeed;
+
+        // Ignorar colisión entre el proyectil y el enemigo
         Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
     }
 }

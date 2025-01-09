@@ -60,6 +60,8 @@ public class LevelSpawner : MonoBehaviour
         if (enemyNoobPrefab == null) return;
 
         Instantiate(enemyNoobPrefab);
+        enemyNoobPrefab.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
+
     }
 
     private void SpawnShootEnemy()
