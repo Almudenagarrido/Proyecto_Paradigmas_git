@@ -12,6 +12,8 @@ public class Meteorite : MonoBehaviour
     public Sprite explosionSprite;
     private float minScale = 0.6f;
     private float maxScale = 1.0f;
+    private bool isExploding = false;
+
 
     private GameManager gameManager;
 
@@ -82,9 +84,9 @@ public class Meteorite : MonoBehaviour
     {
         // Crear el humo rojo
         GameObject redSmoke = CreateSmokeObject(explosionSprite, 0.08f, -0.1f);
-
+        Destroy(gameObject);
         float totalDuration = 1f; // Duración total de la explosión
-        float maxScale = 0.6f;    // Escala máxima del humo
+        float maxScale = 20f;    // Escala máxima del humo
         float elapsedTime = 0f;
 
         while (elapsedTime < totalDuration)
@@ -96,12 +98,10 @@ public class Meteorite : MonoBehaviour
 
             yield return null;
         }
-
+        
         Destroy(redSmoke);
-        if (redSmoke != null) { Destroy(redSmoke); }
-        if (redSmoke != null) { Destroy(redSmoke); }
-
-        Destroy(gameObject);
+        
+        
     }
 
     private GameObject CreateSmokeObject(Sprite sprite, float initialScale, float zOffset)
@@ -114,6 +114,8 @@ public class Meteorite : MonoBehaviour
         renderer.sprite = sprite;
         renderer.sortingOrder = 10;
 
+        Destroy(smoke, 2f);
+
         return smoke;
     }
 
@@ -125,10 +127,16 @@ public class Meteorite : MonoBehaviour
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (isExploding)
+        {
+            return;
+        }
         if (collision.gameObject.CompareTag("BulletPlayer"))
         {              
             if (gameManager.numberOfPlayers == 1)
             {
+                Destroy(collision.gameObject);
+                isExploding = true;
                 Explode();
                 gameManager.AddPoints(1, "Meteorite");
             }
@@ -139,6 +147,7 @@ public class Meteorite : MonoBehaviour
             {
                 gameManager.TakeLife(1, "Meteorite");
             }
+            isExploding = true;
             Explode();
         }
     }
