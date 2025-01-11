@@ -32,9 +32,9 @@ public class Planet : MonoBehaviour
         noiseObject.transform.localPosition = Vector3.zero;
 
         noiseRenderer = noiseObject.AddComponent<SpriteRenderer>();
-        noiseRenderer.sortingOrder = 1; 
-        noiseObject.transform.localScale = transform.localScale * noiseScale;
-
+        noiseRenderer.sortingOrder = 1;
+        float fixedNoiseScale = 1.0f; // Ajusta este valor para el tamaño deseado
+        noiseObject.transform.localScale = new Vector3(fixedNoiseScale, fixedNoiseScale, 1);
     }
 
     private void Start()
@@ -55,6 +55,8 @@ public class Planet : MonoBehaviour
         Color newColor = noiseRenderer.color;
         newColor.a = noiseAlpha;
         noiseRenderer.color = newColor;
+
+        
     }
 
     private void Update()

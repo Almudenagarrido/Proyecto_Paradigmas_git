@@ -50,23 +50,23 @@ public class LevelSpawner : MonoBehaviour
 
     private void SpawnMeteorite()
     {
-        if (meteoritePrefab == null) return;
+        if (meteoritePrefab == null) { return; }
 
         Instantiate(meteoritePrefab);
     }
 
     private void SpawnNoobEnemy()
     {
-        if (enemyNoobPrefab == null) return;
+        if (enemyNoobPrefab == null) { return; }
 
         Instantiate(enemyNoobPrefab);
-        enemyNoobPrefab.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
+        enemyNoobPrefab.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
 
     }
 
     private void SpawnShootEnemy()
     {
-        if (enemyShootPrefab == null) return;
+        if (enemyShootPrefab == null) { return; }
 
         Instantiate(enemyShootPrefab);
     }

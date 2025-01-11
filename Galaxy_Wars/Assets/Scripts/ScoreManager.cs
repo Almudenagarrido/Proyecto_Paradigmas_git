@@ -50,12 +50,12 @@ public class ScoreManager : MonoBehaviour
         }
         if (numPlayers == 2)
         {
-            // Suponemos que tenemos dos jugadores. Si tienes más, tendrás que modificar esto.
+            // Suponemos que tenemos dos jugadores.
             int player1Points = gameManager.GetPoints()[1];
             int player2Points = gameManager.GetPoints()[2];
 
             // Actualizamos el texto con los puntos de ambos jugadores
-            pointsText.text = "Player 2 - " + player1Points + " | " + player2Points + " - Player 1";
+            pointsText.text = $"Score: {player1Points+player2Points}";
         }
     }
 
@@ -82,9 +82,6 @@ public class ScoreManager : MonoBehaviour
 
             int player2Life = gameManager.GetLife()[2];
             lifePlayer2.fillAmount = (float)player2Life / 100f;
-
-
-
         }
     }
 

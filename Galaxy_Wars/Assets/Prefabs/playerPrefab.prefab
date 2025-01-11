@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 495e5d6023cd6ee4aa2ca9a6a29e436a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 15
+  maxSpeed: 10
   playerNumber: 0
   smokeSprites: []
   bulletPrefab: {fileID: 98113232596429073, guid: 80b4ac2ceb156ef40accdf0814a661ad, type: 3}

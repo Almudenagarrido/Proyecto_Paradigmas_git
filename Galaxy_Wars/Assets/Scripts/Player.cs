@@ -188,6 +188,14 @@ public class Player : MonoBehaviour
         {
             GameManager.Instance.TakeLife(playerNumber, "Meteorite");
         }
+        else if (collision.gameObject.CompareTag("EnemyNoob"))
+        {
+            GameManager.Instance.TakeLife(playerNumber, "EnemyNoob");
+        }
+        else if (collision.gameObject.CompareTag("EnemyShoot"))
+        {
+            GameManager.Instance.TakeLife(playerNumber, "EnemyShoot");
+        }
     }
 
     public void TriggerDeath()

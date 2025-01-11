@@ -131,8 +131,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76a9a66e675d1a6489329b92e2eb4758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minVelocidad: 3
-  maxVelocidad: 4
+  minVelocidad: 2
+  maxVelocidad: 3
+  explosionSprite: {fileID: 21300000, guid: cc31da090e966cd4cb51f6f1474a71fe, type: 3}
 --- !u!58 &2677889819299522427
 CircleCollider2D:
   m_ObjectHideFlags: 0

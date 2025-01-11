@@ -131,12 +131,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a40f830854ecff44a915954b842cb84b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minVelocidad: 5
-  maxVelocidad: 8
+  minVelocidad: 2
+  maxVelocidad: 3
   bulletPrefab: {fileID: 98113232596429073, guid: 80b4ac2ceb156ef40accdf0814a661ad, type: 3}
   shootingPoint: {fileID: 2740798149198721890}
   bulletSpeed: 5
   timeBetweenBullets: 0.3
+  explosionSprite: {fileID: 21300000, guid: cc31da090e966cd4cb51f6f1474a71fe, type: 3}
 --- !u!58 &2677889819299522427
 CircleCollider2D:
   m_ObjectHideFlags: 0
