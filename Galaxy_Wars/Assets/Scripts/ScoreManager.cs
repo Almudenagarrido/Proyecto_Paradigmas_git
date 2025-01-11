@@ -51,25 +51,26 @@ public class ScoreManager : MonoBehaviour
 
         if (numPlayers == 1)
         {
+            // Un solo jugador humano
             int player1Life = gameManager.GetLife()[1];
             lifePlayer1.fillAmount = (float)player1Life / 100f;
+
             lifePlayer2.enabled = false;
             backgroundPlayer2.enabled = false;
         }
-
-        if (numPlayers == 2)
+        else if (numPlayers == 2 || numPlayers == 3)
         {
-            //lifePlayer2.enabled = true;
-            //backgroundPlayer2.enabled = true;
-
-            // Suponemos que tenemos dos jugadores. Si tienes más, tendrás que modificar esto.
+            // Vida del jugador 1
             int player1Life = gameManager.GetLife()[1];
             lifePlayer1.fillAmount = (float)player1Life / 100f;
 
+            // Vida del jugador 2 (Normal o IA)
             int player2Life = gameManager.GetLife()[2];
             lifePlayer2.fillAmount = (float)player2Life / 100f;
+
+            lifePlayer2.enabled = true;
+            backgroundPlayer2.enabled = true;
         }
     }
-
 
 }

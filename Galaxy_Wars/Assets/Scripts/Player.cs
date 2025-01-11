@@ -29,6 +29,9 @@ public class Player : MonoBehaviour
     private Transform target;
     private float randomMoveTimer = 0f;
     private float randomDirection = 0f;
+    public float maxSpeedAI = 4.5f;
+    private float accelerationAI = 3f;
+    private float rotationSpeedAI = 150f;
 
     private void Start()
     {
@@ -124,14 +127,14 @@ public class Player : MonoBehaviour
     {
         if (randomMoveTimer <= 0f)
         {
-            randomDirection = Random.Range(-rotationSpeed, rotationSpeed);
+            randomDirection = Random.Range(-rotationSpeedAI, rotationSpeedAI);
             randomMoveTimer = Random.Range(1f, 3f);
         }
 
         randomMoveTimer -= Time.deltaTime;
 
         transform.Rotate(0f, 0f, randomDirection * Time.deltaTime);
-        currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed / 2f, acceleration * Time.deltaTime);
+        currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeedAI / 2f, accelerationAI * Time.deltaTime);
         transform.Translate(Vector3.up * currentSpeed * Time.deltaTime, Space.Self);
     }
 
@@ -139,10 +142,12 @@ public class Player : MonoBehaviour
     {
         GameObject[] noobEnemies = GameObject.FindGameObjectsWithTag("EnemyNoob");
         GameObject[] shootEnemies = GameObject.FindGameObjectsWithTag("EnemyShoot");
+        GameObject[] meteorites = GameObject.FindGameObjectsWithTag("Meteorite");
 
         List<GameObject> allEnemies = new List<GameObject>();
         allEnemies.AddRange(noobEnemies);
         allEnemies.AddRange(shootEnemies);
+        allEnemies.AddRange(meteorites);
 
         float minDistance = float.MaxValue;
 
@@ -174,12 +179,13 @@ public class Player : MonoBehaviour
         {
             Vector2 direction = ((Vector2)target.position - (Vector2)transform.position).normalized;
 
+            // Rotar hacia el objetivo
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            float rotationStep = rotationSpeed * Time.deltaTime;
+            float rotationStep = rotationSpeedAI * Time.deltaTime;
             float newAngle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, angle - 90, rotationStep);
             transform.rotation = Quaternion.Euler(0, 0, newAngle);
 
-            currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
+            currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeedAI, accelerationAI * Time.deltaTime);
             transform.Translate(Vector3.up * currentSpeed * Time.deltaTime, Space.Self);
         }
         else
@@ -256,6 +262,8 @@ public class Player : MonoBehaviour
 
         // Desactivar colisión entre la bala y el jugador
         Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+
+        Destroy(bullet, 4f);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

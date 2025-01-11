@@ -43,7 +43,8 @@ public class MenuController : MonoBehaviour
     {
         // Guardar selección de jugadores en el GameManager
         int playerOption = playersDropdown.value;
-        GameManager.Instance.SetPlayers(playerOption); // Usar el método SetPlayers del GameManager
+        GameManager.Instance.SetPlayers(playerOption);
+        if (playerOption == 3) { GameManager.Instance.isSecondPlayerAI = true; }
         Debug.Log("Jugadores seleccionados: " + playerOption);
     }
 

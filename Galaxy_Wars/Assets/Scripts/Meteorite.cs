@@ -84,9 +84,10 @@ public class Meteorite : MonoBehaviour
     {
         // Crear el humo rojo
         GameObject redSmoke = CreateSmokeObject(explosionSprite, 0.08f, -0.1f);
+        Destroy(gameObject);
 
         float totalDuration = 1f; // Duración total de la explosión
-        float maxScale = 0.6f;    // Escala máxima del humo
+        float maxScale = 20f;    // Escala máxima del humo
         float elapsedTime = 0f;
 
         while (elapsedTime < totalDuration)
@@ -100,7 +101,6 @@ public class Meteorite : MonoBehaviour
         }
         
         if (redSmoke!= null) { Destroy(redSmoke); }
-        Destroy(gameObject);
     }
 
     private GameObject CreateSmokeObject(Sprite sprite, float initialScale, float zOffset)

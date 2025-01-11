@@ -101,45 +101,46 @@ public class LevelFactory : MonoBehaviour
 
     private void CreatePlayers(int players)
     {
-        for (int i = 0; i < players; i++)
+        for (int i = 0; i < (GameManager.Instance.isSecondPlayerAI ? 2 : players); i++)
         {
             Vector2 position = Vector2.zero;
 
-            // Asignar posiciones dependiendo del número de jugadores
             if (players == 1)
             {
-                position = new Vector2(0, 0); // Un jugador empieza en el centro
+                position = new Vector2(0, 0);
             }
-            else if (players == 2)
+            else if (players == 2 || GameManager.Instance.isSecondPlayerAI)
             {
                 if (i == 0)
-                    position = new Vector2(2.5f, 0); // Jugador 1 a la izquierda
+                    position = new Vector2(2.5f, 0);
                 else if (i == 1)
-                    position = new Vector2(-2.5f, 0); // Jugador 2 a la derecha
+                    position = new Vector2(-2.5f, 0);
             }
 
-            // Crear el jugador en la posición asignada
             GameObject player = Instantiate(playerPrefab, position, Quaternion.identity, levelRoot.transform);
             Player playerComponent = player.GetComponent<Player>();
-            player.GetComponent<Player>().smokeSprites = SpriteManager.Instance.GetSmokes();
+            playerComponent.smokeSprites = SpriteManager.Instance.GetSmokes();
             player.transform.localScale = new Vector3(0.8f, 0.8f, 1.0f);
             playerComponent.shootingPoint = playerComponent.transform;
 
             playerComponent.bulletPrefab = bulletPrefab;
 
-            // Configurar si el jugador es IA o humano
             if (i == 1 && GameManager.Instance.isSecondPlayerAI)
             {
-                playerComponent.playerNumber = 3; // IA es el jugador 3
+                // Configuración para la IA
+                playerComponent.playerNumber = 2;
+                playerComponent.isAI = true;
                 player.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.GetPlayerSprite(3);
             }
             else
             {
-                playerComponent.playerNumber = i + 1; // Jugador humano
+                // Configuración para jugadores humanos
+                playerComponent.playerNumber = i + 1;
+                playerComponent.isAI = false;
                 player.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.GetPlayerSprite(i + 1);
             }
 
-            Debug.Log($"Jugador {playerComponent.playerNumber} creado en posición {player.transform.position} - {(i == 1 && GameManager.Instance.isSecondPlayerAI ? "IA" : "Humano")}.");
+            Debug.Log($"Jugador {playerComponent.playerNumber} creado en posición {player.transform.position} - {(playerComponent.isAI ? "IA" : "Humano")}.");
         }
     }
 
