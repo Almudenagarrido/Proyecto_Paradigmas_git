@@ -21,8 +21,8 @@ public class GameManager : MonoBehaviour
     public bool endGame = false;
     private bool gameOverTriggered = false;
 
-    public Dictionary<int, int> lifePlayers = new Dictionary<int, int> { { 1, 100 }, { 2, 100 } };
-    public Dictionary<int, int> pointsPlayers = new Dictionary<int, int> { { 1, 0 }, { 2, 0 } };
+    public Dictionary<int, int> lifePlayers = new Dictionary<int, int> { { 1, 100 }, { 2, 100 } }; 
+    public int totalPoints = 0;
     public List<GameObject> playerLifeBars = new List<GameObject>();
     public List<GameObject> playerFillBars = new List<GameObject>();
     
@@ -113,17 +113,8 @@ public class GameManager : MonoBehaviour
             score = GameObject.Find("ScoreText")?.GetComponent<TextMeshProUGUI>();
         }
 
-        // Actualiza el texto de puntuación
-        if (numberOfPlayers == 1)
-        {
-            score.text = $"Player 1: {pointsPlayers[1]}";
-        }
-        else
-        {
-            score.text = $"Player 1: {pointsPlayers[1]}\nPlayer 2: {pointsPlayers[2]}";
-        }
+        score.text = $"Total Score: {totalPoints}";
     }
-
 
     private void InitializeManagers()
     {
@@ -202,8 +193,6 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2.5f);
         SceneManager.LoadScene("GameOver");
-        
-
     }
     
     private void EndGame()
@@ -232,6 +221,9 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
+    public int GetPoints()
+        { return totalPoints; }
+    
     public void SetLevel(int level)
     {
         selectedLevel = level;
@@ -244,9 +236,6 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Número de jugadores seleccionado: {players}");
     }
 
-    public Dictionary<int, int> GetPoints()
-    { return pointsPlayers; }
-
     public Dictionary<int, int> GetLife()
     { return lifePlayers; }
 
@@ -257,7 +246,7 @@ public class GameManager : MonoBehaviour
         isPlaying = false;
         endGame = false;
         lifePlayers[1]=100; lifePlayers[2]=100;
-        pointsPlayers[1] = 0; pointsPlayers[2]=0;
+        totalPoints = 0;
         Debug.Log("Selecciones reiniciadas.");
     }
     
@@ -272,22 +261,22 @@ public class GameManager : MonoBehaviour
                 hurt = 3;
                 break;
             case "EnemyShoot":
-                hurt = 10;
+                hurt = 20;
                 break;
             case "EnemyNoob":
-                hurt = 5;
+                hurt = 15;
                 break;
             case "PlanetBounce":
-                hurt = 2;
+                hurt = 3;
                 break;
             case "PlanetGravity":
-                hurt = 3;
+                hurt = 5;
                 break;
             case "PlanetDeath":
                 lifePlayers[player] = 0;
                 break;
             case "Meteorite":
-                hurt = 5;
+                hurt = 10;
                 break;
             default:
                 Debug.LogWarning("Causa de daño desconocida: " + reason);
@@ -327,17 +316,14 @@ public class GameManager : MonoBehaviour
             case "Meteorite":
                 points = 10;
                 break;
-      
             default:
                 Debug.LogWarning("Objetivo desconocido: " + objective);
                 break;
         }
 
-        if (pointsPlayers.ContainsKey(player))
-        {
-            pointsPlayers[player] += points;
-            Debug.Log($"Jugador {player} ganó {points} puntos por destruir {objective}. Puntos totales: {pointsPlayers[player]}");
-        }
+        // Sumar puntos al puntaje total
+        totalPoints += points;
+        Debug.Log($"Jugador {player} ganó {points} puntos por destruir {objective}. Puntos totales: {totalPoints}");
     }
 
     private void NotifyPlayerDeath(int player)
@@ -350,7 +336,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Método auxiliar para buscar el objeto del jugador basado en su número
     private Player FindPlayerByNumber(int playerNumber)
     {
         Player[] players = FindObjectsOfType<Player>();

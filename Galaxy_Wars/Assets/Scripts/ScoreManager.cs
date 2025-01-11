@@ -16,17 +16,16 @@ public class ScoreManager : MonoBehaviour
 
     void Start()
     {
-        // Intentar obtener la referencia al GameManager
         gameManager = GameManager.Instance;
 
         // Si no estamos en el menú, activamos el texto de puntos
         if (SceneManager.GetActiveScene().name != "MainMenu")
         {
-            pointsText.gameObject.SetActive(true);  // Aseguramos que se muestre el texto
+            pointsText.gameObject.SetActive(true);
         }
         else
         {
-            pointsText.gameObject.SetActive(false);  // Ocultamos el texto en el menú
+            pointsText.gameObject.SetActive(false);
         }
     }
 
@@ -42,21 +41,8 @@ public class ScoreManager : MonoBehaviour
 
     void UpdatePoints()
     {
-        int numPlayers = gameManager.numberOfPlayers;
-        if (numPlayers == 1)
-        {
-            int player1Points = gameManager.GetPoints()[1];
-            pointsText.text = "Score: " + player1Points;
-        }
-        if (numPlayers == 2)
-        {
-            // Suponemos que tenemos dos jugadores.
-            int player1Points = gameManager.GetPoints()[1];
-            int player2Points = gameManager.GetPoints()[2];
-
-            // Actualizamos el texto con los puntos de ambos jugadores
-            pointsText.text = $"Score: {player1Points+player2Points}";
-        }
+        int totalPoints = gameManager.GetPoints();
+        pointsText.text = "Score: " + totalPoints;
     }
 
     void UpdateLife()

@@ -53,6 +53,7 @@ public class LevelSpawner : MonoBehaviour
         if (meteoritePrefab == null) { return; }
 
         Instantiate(meteoritePrefab);
+        meteoritePrefab.transform.localScale = new Vector3(0.8f, 0.8f, 1f);
     }
 
     private void SpawnNoobEnemy()
@@ -60,7 +61,7 @@ public class LevelSpawner : MonoBehaviour
         if (enemyNoobPrefab == null) { return; }
 
         Instantiate(enemyNoobPrefab);
-        enemyNoobPrefab.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
+        enemyNoobPrefab.transform.localScale = new Vector3(0.6f, 0.6f, 1f);
 
     }
 
@@ -69,6 +70,7 @@ public class LevelSpawner : MonoBehaviour
         if (enemyShootPrefab == null) { return; }
 
         Instantiate(enemyShootPrefab);
+        enemyShootPrefab.transform.localScale = new Vector3(0.8f, 0.8f, 1f);
     }
 
     public void StopSpawning()

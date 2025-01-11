@@ -9,6 +9,8 @@ public class EnemyShoot : Enemy
 
     protected override void Start()
     {
+        minVelocidad = 2f;
+        maxVelocidad = 3.5f;
         base.Start();
         InvokeRepeating(nameof(Shoot), 1f, timeBetweenBullets);
     }

@@ -25,21 +25,34 @@ public class Player : MonoBehaviour
     public float timeBetweenBullets = 0.15f;
     private float lastShot = 0f;
 
+    public bool isAI = false;
+    private Transform target;
+    private float randomMoveTimer = 0f;
+    private float randomDirection = 0f;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
-
+    
     private void Update()
     {
         if (!isDead)
         {
-            HandleMovement();
-            HandleFrames();
-            HandleShooting();
+            if (isAI)
+            {
+                HandleAIMovement();
+                HandleAIShooting();
+            }
+            else
+            {
+                HandleMovement();
+                HandleFrames();
+                HandleShooting();
+            }
         }
     }
-
+    
     private void HandleMovement()
     {
         float rotation = 0f;
@@ -107,6 +120,76 @@ public class Player : MonoBehaviour
         transform.Translate(Vector3.up * currentSpeed * Time.deltaTime, Space.Self);
     }
 
+    private void HandleRandomMovement()
+    {
+        if (randomMoveTimer <= 0f)
+        {
+            randomDirection = Random.Range(-rotationSpeed, rotationSpeed);
+            randomMoveTimer = Random.Range(1f, 3f);
+        }
+
+        randomMoveTimer -= Time.deltaTime;
+
+        transform.Rotate(0f, 0f, randomDirection * Time.deltaTime);
+        currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed / 2f, acceleration * Time.deltaTime);
+        transform.Translate(Vector3.up * currentSpeed * Time.deltaTime, Space.Self);
+    }
+
+    private void FindTarget()
+    {
+        GameObject[] noobEnemies = GameObject.FindGameObjectsWithTag("EnemyNoob");
+        GameObject[] shootEnemies = GameObject.FindGameObjectsWithTag("EnemyShoot");
+
+        List<GameObject> allEnemies = new List<GameObject>();
+        allEnemies.AddRange(noobEnemies);
+        allEnemies.AddRange(shootEnemies);
+
+        float minDistance = float.MaxValue;
+
+        // Busca al enemigo mas cercano
+        foreach (GameObject enemy in allEnemies)
+        {
+            float distance = Vector2.Distance(transform.position, enemy.transform.position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                target = enemy.transform;
+            }
+        }
+
+        if (allEnemies.Count == 0)
+        {
+            target = null;
+        }
+    }
+
+    private void HandleAIMovement()
+    {
+        if (target == null)
+        {
+            FindTarget();
+        }
+
+        if (target != null)
+        {
+            Vector2 direction = ((Vector2)target.position - (Vector2)transform.position).normalized;
+
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            float rotationStep = rotationSpeed * Time.deltaTime;
+            float newAngle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, angle - 90, rotationStep);
+            transform.rotation = Quaternion.Euler(0, 0, newAngle);
+
+            currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
+            transform.Translate(Vector3.up * currentSpeed * Time.deltaTime, Space.Self);
+        }
+        else
+        {
+            HandleRandomMovement();
+        }
+
+        HandleFrames();
+    }
+
     private void HandleFrames()
     {
         Vector3 currentPosition = transform.position;
@@ -153,7 +236,16 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Shoot()
+    private void HandleAIShooting()
+    {
+        if (target != null && Time.time > lastShot + timeBetweenBullets)
+        {
+            Shoot();
+            lastShot = Time.time;
+        }
+    }
+
+    private void Shoot()
     {
         // Instancia la bala en el punto de disparo
         GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, shootingPoint.rotation);
@@ -166,7 +258,6 @@ public class Player : MonoBehaviour
         Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
     }
 
-    // Para sumar o restar vida segun con lo que colisione
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("EnemyBullet"))

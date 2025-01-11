@@ -37,9 +37,6 @@ public class LevelFactory : MonoBehaviour
         if (level >= 2)
         {
             AddPlanet(new Vector2(6.02f, 0.99f), Planet.PlanetType.Gravity, 0.13f);
-        }
-        if (level == 3)
-        {
             AddPlanet(new Vector2(1.93f, -3.2f), Planet.PlanetType.Death, 0.12f);
         }
     }
@@ -168,11 +165,11 @@ public class LevelFactory : MonoBehaviour
         }
         else if (level == 2)
         {
-            levelSpawner.ConfigureSpawner(0.9f, 4f, 0f, true, true, false);
+            levelSpawner.ConfigureSpawner(0.9f, 5f, 0f, true, true, false);
         }
         else if (level == 3)
         {
-            levelSpawner.ConfigureSpawner(0.8f, 2f, 3.5f, true, true, true);
+            levelSpawner.ConfigureSpawner(0.8f, 4f, 6f, true, true, true);
         }
     }
 }

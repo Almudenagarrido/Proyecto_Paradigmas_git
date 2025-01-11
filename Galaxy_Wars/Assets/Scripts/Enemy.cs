@@ -3,7 +3,7 @@ using System.Collections;
 
 public abstract class Enemy : MonoBehaviour
 {
-    public float minVelocidad = 1.5f;
+    public float minVelocidad = 2f;
     public float maxVelocidad = 3f;
     protected float velocidad;
     protected Camera camara;
@@ -83,30 +83,32 @@ public abstract class Enemy : MonoBehaviour
                posicionEnPantalla.y > -0.1f && posicionEnPantalla.y < 1.1f;
     }
 
-    protected void Explode()
+    public void Explode()
     {
         StartCoroutine(SimplifiedExplosion());
     }
 
     private IEnumerator SimplifiedExplosion()
     {
+        // Crear el humo rojo
         GameObject redSmoke = CreateSmokeObject(explosionSprite, 0.08f, -0.1f);
-        Destroy(gameObject);
 
-        float totalDuration = 1f;
-        float maxScale = 20f;
+        float totalDuration = 1f; // Duración total de la explosión
+        float maxScale = 0.6f;    // Escala máxima del humo
         float elapsedTime = 0f;
 
         while (elapsedTime < totalDuration)
         {
             elapsedTime += Time.deltaTime;
+
             float progress = elapsedTime / totalDuration;
             UpdateSmokeScale(redSmoke, progress, maxScale);
+
             yield return null;
         }
 
-        Destroy(redSmoke);
-        
+        if (redSmoke != null) { Destroy(redSmoke); }
+        Destroy(gameObject);
     }
 
     private GameObject CreateSmokeObject(Sprite sprite, float initialScale, float zOffset)
@@ -118,6 +120,8 @@ public abstract class Enemy : MonoBehaviour
         SpriteRenderer renderer = smoke.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
         renderer.sortingOrder = 10;
+
+        Destroy(smoke, 1f);
 
         return smoke;
     }

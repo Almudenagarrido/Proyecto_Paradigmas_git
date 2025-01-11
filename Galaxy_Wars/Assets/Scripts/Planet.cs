@@ -18,8 +18,7 @@ public class Planet : MonoBehaviour
 
     private int noiseSpriteIndex = 0;
     public float repeatTime = 0.15f;
-    public float noiseAlpha = 0.4f;
-    public float noiseScale = 1.15f;
+    public float noiseAlpha = 0.2f;
 
     private void Awake()
     {
@@ -33,7 +32,7 @@ public class Planet : MonoBehaviour
 
         noiseRenderer = noiseObject.AddComponent<SpriteRenderer>();
         noiseRenderer.sortingOrder = 1;
-        float fixedNoiseScale = 1.0f; // Ajusta este valor para el tamaño deseado
+        float fixedNoiseScale = 1.05f;
         noiseObject.transform.localScale = new Vector3(fixedNoiseScale, fixedNoiseScale, 1);
     }
 
@@ -52,11 +51,7 @@ public class Planet : MonoBehaviour
 
         noiseRenderer.sprite = noiseSprites[noiseSpriteIndex];
 
-        Color newColor = noiseRenderer.color;
-        newColor.a = noiseAlpha;
-        noiseRenderer.color = newColor;
-
-        
+        noiseRenderer.color = new Color(1f, 1f, 1f, noiseAlpha);
     }
 
     private void Update()

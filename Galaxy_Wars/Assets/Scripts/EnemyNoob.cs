@@ -2,6 +2,12 @@ using UnityEngine;
 
 public class EnemyNoob : Enemy
 {
+    protected override void Start()
+    {
+        minVelocidad = 1f;
+        maxVelocidad = 3f;
+        base.Start();
+    }
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
         if (isExploding) return;

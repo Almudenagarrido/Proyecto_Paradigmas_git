@@ -1382,6 +1382,7 @@ MonoBehaviour:
   isSecondPlayerAI: 0
   isPlaying: 0
   endGame: 0
+  totalPoints: 0
   playerLifeBars: []
   playerFillBars: []
 --- !u!1 &760912267
@@ -2251,7 +2252,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000038146973}
+  m_AnchoredPosition: {x: 0, y: -0.00001335144}
   m_SizeDelta: {x: 0, y: 28}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1058465007
@@ -3470,7 +3471,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 124279109}
   m_HandleRect: {fileID: 124279108}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3980,7 +3981,7 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Two players
       m_Image: {fileID: 0}
-    - m_Text: Player vs AI
+    - m_Text: Player & AI Player
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
