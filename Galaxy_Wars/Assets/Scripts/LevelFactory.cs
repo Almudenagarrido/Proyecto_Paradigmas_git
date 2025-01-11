@@ -162,15 +162,15 @@ public class LevelFactory : MonoBehaviour
 
         if (level == 1)
         {
-            levelSpawner.ConfigureSpawner(1.0f, 0f, 0f, true, false, false);
+            levelSpawner.ConfigureSpawner(1.0f, 0f, 0f, 15f, true, false, false, true);
         }
         else if (level == 2)
         {
-            levelSpawner.ConfigureSpawner(0.9f, 5f, 0f, true, true, false);
+            levelSpawner.ConfigureSpawner(0.9f, 5f, 0f, 20f, true, true, false, true);
         }
         else if (level == 3)
         {
-            levelSpawner.ConfigureSpawner(0.8f, 4f, 6f, true, true, true);
+            levelSpawner.ConfigureSpawner(0.8f, 4f, 6f, 25f, true, true, true, true);
         }
     }
 }

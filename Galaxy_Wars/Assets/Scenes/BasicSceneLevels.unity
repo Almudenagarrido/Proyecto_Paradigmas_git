@@ -131,7 +131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5990811}
-  - component: {fileID: 5990810}
+  - component: {fileID: 5990812}
   m_Layer: 0
   m_Name: LevelSpawner
   m_TagString: Untagged
@@ -139,24 +139,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &5990810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5990809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbe7f003be27e8d43bfbeba1121208d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meteoritePrefab: {fileID: 7195949100673185677, guid: 5027d1a6d92126840aa373658a9edd3c, type: 3}
-  enemyNoobPrefab: {fileID: 6834050884413414321, guid: 46d918bece5d01744ab3fb5a19db21fd, type: 3}
-  enemyShootPrefab: {fileID: 6834050884413414321, guid: 79ce9b6ee369993438fa4f17098c11be, type: 3}
-  meteoriteFrequency: 1
-  noobEnemyFrequency: 3
-  shootEnemyFrequency: 5
 --- !u!4 &5990811
 Transform:
   m_ObjectHideFlags: 0
@@ -172,6 +154,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5990812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5990809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbe7f003be27e8d43bfbeba1121208d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meteoritePrefab: {fileID: 7195949100673185677, guid: 5027d1a6d92126840aa373658a9edd3c, type: 3}
+  enemyNoobPrefab: {fileID: 6834050884413414321, guid: 46d918bece5d01744ab3fb5a19db21fd, type: 3}
+  enemyShootPrefab: {fileID: 6834050884413414321, guid: 79ce9b6ee369993438fa4f17098c11be, type: 3}
+  powerUpPrefab: {fileID: 4423319081508503627, guid: 6753f8325d476c645891ec005b19cd79, type: 3}
+  meteoriteFrequency: 1
+  noobEnemyFrequency: 3
+  shootEnemyFrequency: 5
+  powerUpFrequency: 10
 --- !u!1 &98225630
 GameObject:
   m_ObjectHideFlags: 0

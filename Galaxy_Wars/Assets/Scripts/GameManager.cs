@@ -24,8 +24,9 @@ public class GameManager : MonoBehaviour
     public Dictionary<int, int> lifePlayers = new Dictionary<int, int> { { 1, 100 }, { 2, 100 } }; 
     public int totalPoints = 0;
     public List<GameObject> playerLifeBars = new List<GameObject>();
-    public List<GameObject> playerFillBars = new List<GameObject>();
-    
+    public List<GameObject> playerFillBars = new List<GameObject>(); 
+    private Dictionary<int, bool> shieldStatus = new Dictionary<int, bool> { { 1, false }, { 2, false } };
+
     private SpriteManager spriteManager;
     private LevelFactory levelFactory;
 
@@ -249,9 +250,32 @@ public class GameManager : MonoBehaviour
         totalPoints = 0;
         Debug.Log("Selecciones reiniciadas.");
     }
-    
+
+    public void ActivateShield(int playerNumber, float duration)
+    {
+        if (shieldStatus.ContainsKey(playerNumber))
+        {
+            shieldStatus[playerNumber] = true;
+            Debug.Log($"Jugador {playerNumber} tiene el escudo activado durante {duration} segundos.");
+            StartCoroutine(ShieldTimer(playerNumber, duration));
+        }
+    }
+
+    private IEnumerator ShieldTimer(int playerNumber, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        shieldStatus[playerNumber] = false;
+        Debug.Log($"Escudo desactivado para el jugador {playerNumber}.");
+    }
+
     public void TakeLife(int player, string reason)
     {
+        if (shieldStatus.ContainsKey(player) && shieldStatus[player])
+        {
+            Debug.Log($"Jugador {player} está protegido. No se le quita vida.");
+            return;
+        }
+
         int hurt = 0;
 
         // Determinar el daño según la causa
@@ -315,6 +339,9 @@ public class GameManager : MonoBehaviour
                 break;
             case "Meteorite":
                 points = 10;
+                break;
+            case "PowerUp":
+                points = 50;
                 break;
             default:
                 Debug.LogWarning("Objetivo desconocido: " + objective);

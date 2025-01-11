@@ -959,9 +959,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\xA1Salva la galaxia y haz historia!\nEn una galaxia lejana, el cosmos
-    est\xE1 al borde del caos. La Alianza Estelar cuenta contigo, piloto de la nave
-    Starhawk, para enfrentar enemigos mecanizados y meteoritos que amenazan con destruirlo
+  m_text: "\xA1BIENVENIDO A GALAXY WARS!\nEn una galaxia lejana, el cosmos est\xE1
+    al borde del caos. La Alianza Estelar cuenta contigo, piloto de la nave Starhawk,
+    para enfrentar enemigos mecanizados y meteoritos que amenazan con destruirlo
     todo. \n\nInstrucciones:\n- Comandos de navegaci\xF3n: flechas o WASD.\n- Disparar
     armas: barra espaciador o Q.\n- Derriba objetivos para conseguir puntos.\n\nPeligros:\n-
     Planetas: planeta rojo = destrucci\xF3n.\n- Naves enemigas.\n- Meteoritos\n\n\xA1Suerte
@@ -2725,8 +2725,10 @@ MonoBehaviour:
   blackholeSprite1: {fileID: 21300000, guid: a18953e053ebf5345860308bb1658b3b, type: 3}
   blackholeSprite2: {fileID: 21300000, guid: 2cd4c925e1b535346ab52ccda0124f34, type: 3}
   whiteSmokeSprite: {fileID: 21300000, guid: 96bb23abd90054c4688efedb7030677c, type: 3}
-  yellowSmokeSprite: {fileID: 0}
+  yellowSmokeSprite: {fileID: 21300000, guid: a1736d6c2f7218647a0469dba387d7b2, type: 3}
   redSmokeSprite: {fileID: 21300000, guid: cc31da090e966cd4cb51f6f1474a71fe, type: 3}
+  lifePowerUp: {fileID: 21300000, guid: ee034afbf080bbd43b665e0b4c41bb5d, type: 3}
+  pointsPowerUp: {fileID: 21300000, guid: b25c839236e48034888475d193015a23, type: 3}
 --- !u!1 &1394563541
 GameObject:
   m_ObjectHideFlags: 0

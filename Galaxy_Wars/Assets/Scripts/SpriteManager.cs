@@ -28,6 +28,9 @@ public class SpriteManager : MonoBehaviour
     public Sprite yellowSmokeSprite;
     public Sprite redSmokeSprite;
 
+    public Sprite lifePowerUp;
+    public Sprite pointsPowerUp;
+
     private void Awake()
     {
         if (Instance == null)

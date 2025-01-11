@@ -10,6 +10,8 @@ public class Meteorite : MonoBehaviour
     private Camera camara;
 
     public Sprite explosionSprite;
+    public AudioClip explosionSound;
+    private AudioSource audioSource;
     private float minScale = 0.6f;
     private float maxScale = 1.0f;
     private bool isExploding = false;
@@ -21,6 +23,7 @@ public class Meteorite : MonoBehaviour
     {
         GameObject managerObj = GameObject.Find("GameManager");
         gameManager = managerObj.GetComponent<GameManager>();
+        audioSource = GetComponent<AudioSource>();
 
         camara = Camera.main;
 
@@ -77,6 +80,11 @@ public class Meteorite : MonoBehaviour
 
     private void Explode()
     {
+        if (audioSource != null && explosionSound != null)
+        {
+            audioSource.PlayOneShot(explosionSound);
+        }
+
         StartCoroutine(SimplifiedExplosion());
     }
 

@@ -33,9 +33,14 @@ public class Player : MonoBehaviour
     private float accelerationAI = 3f;
     private float rotationSpeedAI = 150f;
 
+    public AudioClip shootingSound;
+    public AudioClip explosionSound;
+    private AudioSource audioSource;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
     }
     
     private void Update()
@@ -255,13 +260,17 @@ public class Player : MonoBehaviour
     {
         // Instancia la bala en el punto de disparo
         GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, shootingPoint.rotation);
-
-        // Configurar la velocidad de la bala
         Rigidbody2D rigidBullet = bullet.GetComponent<Rigidbody2D>();
         rigidBullet.velocity = shootingPoint.up * bulletSpeed;
 
         // Desactivar colisión entre la bala y el jugador
         Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+
+        // Reproducir el sonido de disparo
+        if (audioSource != null && shootingSound != null)
+        {
+            audioSource.PlayOneShot(shootingSound);
+        }
 
         Destroy(bullet, 4f);
     }
@@ -271,6 +280,10 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("EnemyBullet"))
         {
             GameManager.Instance.TakeLife(playerNumber, "EnemyBullet");
+        }
+        else if (collision.gameObject.CompareTag("PowerUp"))
+        {
+            Debug.Log($"Jugador {playerNumber} recogió un PowerUp.");
         }
         else if (collision.gameObject.CompareTag("Planet"))
         {
@@ -302,6 +315,10 @@ public class Player : MonoBehaviour
         if (!isDead)
         {
             isDead = true;
+            if (audioSource != null && explosionSound != null)
+            {
+                audioSource.PlayOneShot(explosionSound);
+            }
             StartCoroutine(EnhancedDeathAnimation());
         }
     }
